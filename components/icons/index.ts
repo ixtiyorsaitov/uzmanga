@@ -1,0 +1,17 @@
+export { default as AlbumIcon } from "./album.icon";
+export { default as BellIcon } from "./bell.icon";
+export { default as BookmarkIcon } from "./bookmark.icon";
+export { default as ChatIcon } from "./chat.icon";
+export { default as ForumIcon } from "./forum.icon";
+export { default as FilmIcon } from "./film.icon";
+export { default as HistoryIcon } from "./history.icon";
+export { default as MenuIcon } from "./menu.icon";
+export { default as MedalIcon } from "./medal.icon";
+export { default as RankingIcon } from "./ranking.icon";
+export { default as StoreIcon } from "./store.icon";
+export { default as TransactionIcon } from "./transaction.icon";
+export { default as EditIcon } from "./edit.icon";
+export { default as SettingsIcon } from "./settings.icon";
+export { default as NoteIcon } from "./note.icon";
+export { default as PremiumIcon } from "./premium.icon";
+export { default as BookOpenIcon } from "./book.open.icon";

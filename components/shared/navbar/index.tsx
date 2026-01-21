@@ -15,7 +15,7 @@ const Navbar = () => {
 
         {/* Mobile */}
         <div className="md:hidden flex">
-          <SearchTrigger />
+          <SearchTrigger className="w-full" />
         </div>
       </Wrapper>
       <BottomNav />
