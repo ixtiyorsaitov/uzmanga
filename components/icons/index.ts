@@ -15,3 +15,7 @@ export { default as SettingsIcon } from "./settings.icon";
 export { default as NoteIcon } from "./note.icon";
 export { default as PremiumIcon } from "./premium.icon";
 export { default as BookOpenIcon } from "./book.open.icon";
+export { default as EmailIcon } from "./email.icon";
+export { default as KeyIcon } from "./key.icon";
+export { default as TelegramIcon } from "./telegram.icon";
+export { default as GoogleIcon } from "./google.icon";

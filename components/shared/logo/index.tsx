@@ -1,23 +1,30 @@
-import React from "react";
 import LogoVec from "@/public/vectors/logo-vec.webp";
 import Image from "next/image";
 
-const Logo = () => {
+const Logo = ({
+  winter = false,
+  className,
+}: {
+  winter?: boolean;
+  className?: string;
+}) => {
   return (
     <div className="dark:text-foreground relative text-black">
-      <LogoSvg />
-      <Image
-        className="absolute top-0 left-0 z-50 -translate-x-2 -translate-y-1"
-        src={LogoVec}
-        alt="logo"
-      />
+      <LogoSvg className={className} />
+      {winter && (
+        <Image
+          className="absolute top-0 left-0 z-50 -translate-x-2 -translate-y-1"
+          src={LogoVec}
+          alt="logo"
+        />
+      )}
     </div>
   );
 };
 
 export default Logo;
 
-function LogoSvg() {
+function LogoSvg(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -28,6 +35,7 @@ function LogoSvg() {
       strokeWidth="1.5"
       data-sentry-element="IconRenderer"
       data-sentry-source-file="brand.tsx"
+      {...props}
     >
       <path
         fill="currentColor"

@@ -11,6 +11,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import useAuthModal from "@/components/hooks/modals/useAuthModal";
+import AuthModal from "@/components/modals/auth";
 
 const ThemeSwitcher = dynamic(() => import("@/components/ui/theme-switcher"), {
   ssr: false,
@@ -26,8 +28,10 @@ const UserDropdown = dynamic(
 );
 
 export const NavbarRight = () => {
-  const isAuthenticated = true;
-  const [open, setOpen] = useState(false);
+  const isAuthenticated = false;
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const { open: authOpen, setOpen: setAuthOpen } = useAuthModal();
+
   return (
     <div className="flex items-center justify-end gap-2">
       <SearchTrigger />
@@ -50,20 +54,23 @@ export const NavbarRight = () => {
           <Button variant={"secondary"} size={"icon"}>
             <BellIcon className="size-5" />
           </Button>
-          <DropdownMenu open={open} onOpenChange={setOpen}>
+          <DropdownMenu open={dropdownOpen} onOpenChange={setDropdownOpen}>
             <DropdownMenuTrigger asChild>
               <Avatar className="size-9">
                 <AvatarImage />
                 <AvatarFallback>I</AvatarFallback>
               </Avatar>
             </DropdownMenuTrigger>
-            {open && <UserDropdown />}
+            {dropdownOpen && <UserDropdown />}
           </DropdownMenu>
         </>
       ) : (
         <>
           <ThemeSwitcher />
-          <Button>{"Kirish/Ro'yxatdan o'tish"}</Button>
+          <Button onClick={() => setAuthOpen(true)}>
+            {"Kirish/Ro'yxatdan o'tish"}
+          </Button>
+          <AuthModal />
         </>
       )}
     </div>

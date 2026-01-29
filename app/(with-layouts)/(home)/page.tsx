@@ -1,5 +1,7 @@
+import HomePageClient from "@/components/pages/home";
+
 const HomePage = () => {
-  return <></>;
+  return <HomePageClient />;
 };
 
 export default HomePage;

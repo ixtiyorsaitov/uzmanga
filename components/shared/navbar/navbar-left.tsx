@@ -49,7 +49,7 @@ const NavbarLeft = () => {
   return (
     <div className="flex items-center justify-start gap-2">
       <div className="mr-3">
-        <Logo />
+        <Logo winter />
       </div>
       <div className="flex items-center justify-center gap-2">
         {items.map((item) => (

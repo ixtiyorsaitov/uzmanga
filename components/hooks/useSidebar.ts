@@ -1,11 +1,7 @@
 import { create } from "zustand";
+import { OpenStateType } from ".";
 
-type Store = {
-  open: boolean;
-  setOpen: (open: boolean) => void;
-};
-
-const useSidebar = create<Store>()((set) => ({
+const useSidebar = create<OpenStateType>()((set) => ({
   open: false,
   setOpen: (open) => set({ open }),
 }));

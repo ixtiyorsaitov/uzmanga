@@ -1,9 +1,10 @@
 import Navbar from "@/components/shared/navbar";
 
-const Layout = () => {
+const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div>
       <Navbar />
+      {children}
     </div>
   );
 };
