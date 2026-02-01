@@ -16,7 +16,7 @@ const BottomNav = () => {
   const { setOpen, open } = useAuthModal();
   return (
     <>
-      <div className="fixed bottom-0 w-full bg-background md:hidden flex items-center justify-center gap-1 px-2">
+      <div className="fixed bottom-0 z-50 w-full bg-background md:hidden flex items-center justify-center gap-1 px-2">
         <div className="py-2 text-muted-foreground space-y-1 text-xs w-full flex items-center justify-center flex-col">
           <CatalogIcon className="w-4! h-4!" />
           Katalog

@@ -16,11 +16,28 @@ interface Props {
   size?: Size;
   children: React.ReactNode;
   className?: string;
+  disableSize?: boolean;
+  noPadding?: boolean;
 }
-const Wrapper = ({ size = "xl", children, className }: Props) => {
+const Wrapper = ({
+  size = "xl",
+  children,
+  className,
+  disableSize,
+  noPadding,
+}: Props) => {
   return (
-    <div className={cn("w-full flex items-center justify-center px-4", className)}>
-      <div className="w-full" style={{ maxWidth: defineMaxWidth(size) + "px" }}>
+    <div
+      className={cn(
+        "w-full flex items-center justify-center",
+        !noPadding && "px-4",
+        className,
+      )}
+    >
+      <div
+        className="w-full"
+        style={{ maxWidth: disableSize ? "100%" : defineMaxWidth(size) + "px" }}
+      >
         {children}
       </div>
     </div>

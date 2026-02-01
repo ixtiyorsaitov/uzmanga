@@ -7,7 +7,7 @@ import SearchTrigger from "./search-trigger";
 const Navbar = () => {
   return (
     <>
-      <Wrapper className="sticky top-0 border-b py-3 bg-background">
+      <Wrapper className="sticky top-0 border-b py-3 z-50 bg-background">
         <div className="md:flex hidden items-center justify-between">
           <NavbarLeft />
           <NavbarRight />

@@ -53,16 +53,18 @@
   --color-secondary-dark: #18181a;
   --color-primary-dark: #3878df;
   --color-muted-foreground-dark: #c5c5c6;
+  --color-card-dark: #16181b;
 
   --color-background-light: #f1f1f4;
   --color-secondary-light: #fefdfe;
   --color-muted-foreground-light: #4d4c53;
+  --color-card-light: #ffffff;
 }
 
 :root {
   --background: var(--color-background-light);
   --foreground: oklch(0.141 0.005 285.823);
-  --card: oklch(1 0 0);
+  --card: var(--color-card-light);
   --card-foreground: oklch(0.141 0.005 285.823);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.141 0.005 285.823);
@@ -97,7 +99,7 @@
 .dark {
   --background: var(--color-background-dark);
   --foreground: oklch(0.985 0 0);
-  --card: oklch(0.21 0.006 285.885);
+  --card: var(--color-card-dark);
   --card-foreground: oklch(0.985 0 0);
   --popover: oklch(0.21 0.006 285.885);
   --popover-foreground: oklch(0.985 0 0);

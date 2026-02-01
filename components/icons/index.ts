@@ -19,3 +19,4 @@ export { default as EmailIcon } from "./email.icon";
 export { default as KeyIcon } from "./key.icon";
 export { default as TelegramIcon } from "./telegram.icon";
 export { default as GoogleIcon } from "./google.icon";
+export { default as ArrowTopRightIcon } from "./arrow.top.right.icon";
