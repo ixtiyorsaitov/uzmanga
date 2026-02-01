@@ -16,19 +16,18 @@ import {
 } from "@/components/ui/sheet";
 import { Switch } from "@/components/ui/switch";
 import { useTheme } from "next-themes";
-import { useUser } from "@/components/contexts/user.context";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import LogoutIcon from "@/components/icons/logout.icon";
 import ProfileWidget from "@/components/features/user/ProfileWidget";
 import MenuList from "./MenuList";
+import { useAuth } from "@/components/contexts/auth.context";
 
 const SidebarSheet = () => {
   const { resolvedTheme, setTheme } = useTheme();
   const { open, setOpen } = useSidebar();
-  const { status } = useUser();
-
-  const isAuthenticated = status !== "authenticated";
+  const { loading, user } = useAuth();
+  const isAuthenticated = !loading && !!user;
 
   const toggleTheme = () => {
     setTheme(resolvedTheme === "dark" ? "light" : "dark");

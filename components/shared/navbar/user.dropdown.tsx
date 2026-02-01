@@ -25,8 +25,10 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import LogoutIcon from "@/components/icons/logout.icon";
+import { useAuth } from "@/components/contexts/auth.context";
 
 const UserDropdown = () => {
+  const { logout } = useAuth();
   const { resolvedTheme, setTheme } = useTheme();
   const toggleTheme = () => {
     setTheme(resolvedTheme === "dark" ? "light" : "dark");
@@ -124,7 +126,10 @@ const UserDropdown = () => {
 
       <DropdownMenuSeparator />
       <DropdownMenuGroup>
-        <DropdownMenuItem className="justify-between text-destructive hover:text-destructive! rounded-lg">
+        <DropdownMenuItem
+          onClick={logout}
+          className="justify-between text-destructive hover:text-destructive! rounded-lg"
+        >
           Log out
           <LogoutIcon className="size-5 text-destructive" />
         </DropdownMenuItem>

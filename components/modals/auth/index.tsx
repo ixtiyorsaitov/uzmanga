@@ -26,7 +26,7 @@ const AuthModal = () => {
       <DialogContent
         showCloseButton={!importLoading}
         className={cn(
-          "transition-all duration-300",
+          "transition-none",
           importLoading
             ? "w-25 h-25 flex items-center justify-center"
             : "w-full max-w-lg sm:w-95",

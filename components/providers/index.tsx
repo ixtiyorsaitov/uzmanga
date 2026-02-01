@@ -1,11 +1,11 @@
+import { AuthProvider } from "@/components/contexts/auth.context";
 import { Toaster } from "../ui/sonner";
 import QueryProvider from "./query-provider";
 import { ThemeProvider } from "./theme.provider";
-import { UserProvider } from "@/components/contexts/user.context";
 
 const Providers = ({ children }: { children: React.ReactNode }) => {
   return (
-    <UserProvider>
+    <AuthProvider>
       <ThemeProvider
         attribute="class"
         defaultTheme="system"
@@ -15,7 +15,7 @@ const Providers = ({ children }: { children: React.ReactNode }) => {
         <QueryProvider>{children}</QueryProvider>
         <Toaster />
       </ThemeProvider>
-    </UserProvider>
+    </AuthProvider>
   );
 };
 

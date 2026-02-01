@@ -7,20 +7,22 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
+import { useAuth } from "@/components/contexts/auth.context";
 
 interface Props {
   isDropdownMode?: boolean;
 }
 
 const ProfileWidget = ({ isDropdownMode = false }: Props) => {
+  const { user } = useAuth();
   return (
     <div className="space-y-4">
       <Link href={"#"} className="w-full flex items-center justify-start gap-4">
         <Avatar className="size-10.5 rounded-md">
-          <AvatarFallback>I</AvatarFallback>
+          <AvatarFallback>{user?.name?.[0]}</AvatarFallback>
         </Avatar>
         <div>
-          <h1 className="hover:underline">Ixtiyor Saitov</h1>
+          <h1 className="hover:underline">{user?.name}</h1>
           <p className="text-xs text-muted-foreground">ID: 1234567</p>
         </div>
       </Link>

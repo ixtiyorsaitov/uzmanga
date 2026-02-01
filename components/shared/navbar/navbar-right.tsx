@@ -13,6 +13,7 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import useAuthModal from "@/components/hooks/modals/useAuthModal";
 import AuthModal from "@/components/modals/auth";
+import { useAuth } from "@/components/contexts/auth.context";
 
 const ThemeSwitcher = dynamic(() => import("@/components/ui/theme-switcher"), {
   ssr: false,
@@ -28,7 +29,8 @@ const UserDropdown = dynamic(
 );
 
 export const NavbarRight = () => {
-  const isAuthenticated = false;
+  const { user, loading } = useAuth();
+  const isAuthenticated = !!user && !loading;
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const { open: authOpen, setOpen: setAuthOpen } = useAuthModal();
 
