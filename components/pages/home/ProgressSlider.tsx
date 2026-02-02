@@ -19,7 +19,7 @@ export default function ProgressSlider({
   });
 
   return (
-    <div className="w-full bg-background py-5">
+    <div className="w-full py-5">
       <div className="overflow-hidden" ref={emblaRef}>
         <div className="flex">
           {progressData.map((progress) => (

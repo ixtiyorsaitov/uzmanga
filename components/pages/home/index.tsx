@@ -2,11 +2,12 @@
 
 import Wrapper from "@/components/layout/wrapper";
 import MangaSlider from "./MangaSlider";
-import { mangaData, progressData } from "@/lib/constants";
+import { mangaData, progressData, sliderData } from "@/lib/constants";
 import HotUpdates from "./HotUpdates";
 import ProgressSlider from "./ProgressSlider";
 import HeaderTitle from "@/components/shared/HeaderTitle";
 import { useAuth } from "@/components/contexts/auth.context";
+import HomeSlider from "./HomeSlider";
 
 const HomePageClient = () => {
   const { user } = useAuth();
@@ -24,6 +25,11 @@ const HomePageClient = () => {
             <ProgressSlider progressData={progressData} />
           </div>
         )}
+
+        {/* Home Slider */}
+        <div className="mt-5">
+          <HomeSlider infiniteLoop sliderData={sliderData} />
+        </div>
       </Wrapper>
     </div>
   );

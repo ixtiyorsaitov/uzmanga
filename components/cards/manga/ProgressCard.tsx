@@ -1,7 +1,6 @@
 import { Progress } from "@/components/ui/progress";
 import { cn } from "@/lib/utils";
 import { IProgress } from "@/types/progress";
-import { StarIcon } from "lucide-react";
 
 interface Props {
   progress: IProgress;
@@ -18,7 +17,7 @@ const ProgressCard = ({ progress, auto }: Props) => {
         )}
       >
         {/* Image */}
-        <div className="w-16 h-full bg-red-500 rounded-xl shrink-0"></div>
+        <div className="w-16 h-full bg-primary rounded-xl shrink-0"></div>
 
         {/* Content */}
         <div className="h-full flex flex-col justify-center space-y-2 flex-1 min-w-0">
