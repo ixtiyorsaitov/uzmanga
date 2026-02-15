@@ -29,15 +29,14 @@ const UserDropdown = dynamic(
 );
 
 export const NavbarRight = () => {
-  const { user, loading } = useAuth();
-  const isAuthenticated = !!user && !loading;
+  const { user } = useAuth();
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const { open: authOpen, setOpen: setAuthOpen } = useAuthModal();
 
   return (
     <div className="flex items-center justify-end gap-2">
       <SearchTrigger />
-      {isAuthenticated ? (
+      {user ? (
         <>
           <Button className="gap-1 lg:flex hidden" variant={"secondary"}>
             <BookmarkIcon className="size-5" />

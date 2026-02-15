@@ -20,3 +20,7 @@ export { default as KeyIcon } from "./key.icon";
 export { default as TelegramIcon } from "./telegram.icon";
 export { default as GoogleIcon } from "./google.icon";
 export { default as ArrowTopRightIcon } from "./arrow.top.right.icon";
+export { default as AlertIcon } from "./alert.icon";
+export { default as HeartIcon } from "./heart.icon";
+export { default as EyeIcon } from "./eye.icon";
+export { default as ArrowDownUpIcon } from "./arrowdownup.icon";

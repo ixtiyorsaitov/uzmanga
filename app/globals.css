@@ -137,6 +137,12 @@
   body {
     @apply bg-background text-foreground;
   }
+  .hoverLink:hover {
+    @apply text-primary underline underline-offset-4 decoration-0;
+  }
+  .blur-card {
+    @apply dark:bg-background/50 dark:backdrop-blur-sm bg-white p-3 rounded-xl;
+  }
 }
 
 /* @keyframes accordion-down {

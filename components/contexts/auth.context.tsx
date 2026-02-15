@@ -1,85 +1,56 @@
 "use client";
-
 import React, { createContext, useContext, useEffect, useState } from "react";
 import api from "@/lib/axios";
 import { usePathname, useRouter } from "next/navigation";
 
-interface User {
-  id: string;
-  name: string;
-  email: string;
-  avatar?: string;
-}
+const AuthContext = createContext<any>(undefined);
 
-interface AuthContextType {
-  user: User | null;
-  loading: boolean;
-  logout: () => Promise<void>;
-  initAuth: () => Promise<void>;
-}
-
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
-
-export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState(true);
-  const router = useRouter();
+export const AuthProvider = ({
+  children,
+  initialUser, // Serverdan kelgan tayyor user
+}: {
+  children: React.ReactNode;
+  initialUser: any;
+}) => {
+  const [user, setUser] = useState(initialUser);
+  const [loading, setLoading] = useState(!initialUser);
   const pathname = usePathname();
+  const router = useRouter();
 
-  const initAuth = async () => {
-    try {
-      setLoading(true);
-      const { data: res } = await api.get("/auth/me");
-
-      setUser(res.data.user);
-    } catch (err: any) {
-      console.error("Auth initialization failed:", err);
-      setUser(null);
-
-      // Himoyalangan sahifalarda bo'lsa, login'ga yo'naltirish
-      const protectedRoutes = [
-        "/profile",
-        "/dashboard",
-        "/settings",
-        "/manga/create",
-      ];
-      const isProtectedRoute = protectedRoutes.some((route) =>
-        pathname.startsWith(route),
-      );
-
-      if (isProtectedRoute) {
-        const url = `/login?callbackUrl=${encodeURIComponent(pathname)}`;
-        router.replace(url);
-      }
-    } finally {
-      setLoading(false);
-    }
-  };
-
+  // Faqat user yo'q bo'lsa (client-side'da refresh qilinganda) ishlaydi
   useEffect(() => {
-    initAuth();
-  }, []); // Faqat mount bo'lganda ishga tushadi
+    if (!initialUser) {
+      api
+        .get("/auth/me")
+        .then((res) => setUser(res.data.data.user))
+        .catch(() => setUser(null))
+        .finally(() => setLoading(false));
+    }
+  }, [initialUser]);
+
+  // Redirect Guard (Faqat himoyalangan sahifalar uchun)
+  useEffect(() => {
+    const protectedRoutes = ["/profile", "/dashboard", "/manga/create"];
+    if (
+      !loading &&
+      !user &&
+      protectedRoutes.some((r) => pathname.startsWith(r))
+    ) {
+      router.replace(`/login?callbackUrl=${pathname}`);
+    }
+  }, [user, loading, pathname]);
 
   const logout = async () => {
-    try {
-      await api.post("/auth/logout");
-    } catch (err) {
-      console.error("Logout failed:", err);
-    } finally {
-      setUser(null);
-      router.push("/");
-    }
+    await api.post("/auth/logout");
+    setUser(null);
+    router.push("/");
   };
 
   return (
-    <AuthContext.Provider value={{ user, loading, logout, initAuth }}>
+    <AuthContext.Provider value={{ user, loading, logout }}>
       {children}
     </AuthContext.Provider>
   );
 };
 
-export const useAuth = () => {
-  const context = useContext(AuthContext);
-  if (!context) throw new Error("useAuth must be used within AuthProvider");
-  return context;
-};
+export const useAuth = () => useContext(AuthContext);

@@ -2,10 +2,21 @@ import { AuthProvider } from "@/components/contexts/auth.context";
 import { Toaster } from "../ui/sonner";
 import QueryProvider from "./query-provider";
 import { ThemeProvider } from "./theme.provider";
+import api from "@/lib/axios";
 
-const Providers = ({ children }: { children: React.ReactNode }) => {
+const Providers = async ({ children }: { children: React.ReactNode }) => {
+  let user = null;
+
+  try {
+    const { data: res } = await api.get("/auth/me");
+    console.log(res);
+
+    user = res.data.user;
+  } catch (err) {
+    user = null;
+  }
   return (
-    <AuthProvider>
+    <AuthProvider initialUser={user}>
       <ThemeProvider
         attribute="class"
         defaultTheme="system"

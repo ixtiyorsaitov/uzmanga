@@ -1,44 +1,57 @@
-// middleware.js
-import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from "next/server";
 
 export async function middleware(request: NextRequest) {
-  const accessToken = request.cookies.get('access_token')?.value;
-  const refreshToken = request.cookies.get('refresh_token')?.value;
+  const accessToken = request.cookies.get("access_token")?.value;
+  const refreshToken = request.cookies.get("refresh_token")?.value;
   const { pathname } = request.nextUrl;
 
+  // 1. MANGA REDIRECT MANTIQI (Loopni oldini olish uchun)
+  // Bu qism foydalanuvchi /mangas/lookism ga kirganda uni /mangas/lookism/main ga otadi
+  const mangaRegex = /^\/mangas\/([^\/]+)$/;
+  const match = pathname.match(mangaRegex);
+
+  if (match) {
+    const slug = match[1];
+    // Agar slug 'create' bo'lmasa (chunki u protected route bo'lishi mumkin)
+    if (slug !== "create") {
+      return NextResponse.redirect(
+        new URL(`/mangas/${slug}/main`, request.url),
+      );
+    }
+  }
+
   // Himoyalangan sahifalar
-  const protectedRoutes = ['/profile', '/dashboard', '/settings', '/manga/create'];
-  const authRoutes = ['/login', '/register'];
-  
-  const isProtectedRoute = protectedRoutes.some(route => pathname.startsWith(route));
+  const protectedRoutes = [
+    "/profile",
+    "/dashboard",
+    "/settings",
+    "/manga/create",
+  ];
+  const authRoutes = ["/login", "/register"];
+
+  const isProtectedRoute = protectedRoutes.some((route) =>
+    pathname.startsWith(route),
+  );
   const isAuthRoute = authRoutes.includes(pathname);
 
-  // ===== 1. Himoyalangan sahifalarga kirish =====
+  // ===== 2. Himoyalangan sahifalarga kirish =====
   if (isProtectedRoute) {
-    // Token yo'q bo'lsa -> Login
     if (!accessToken && !refreshToken) {
-      const url = new URL('/login', request.url);
-      url.searchParams.set('callbackUrl', pathname);
+      const url = new URL("/login", request.url);
+      url.searchParams.set("callbackUrl", pathname);
       return NextResponse.redirect(url);
     }
-
-    // Access token eskirgan, lekin refresh token bor bo'lsa
-    // Client-side'da axios interceptor avtomatik yangilaydi
-    // Middleware faqat cookie mavjudligini tekshiradi
     return NextResponse.next();
   }
 
-  // ===== 2. Auth sahifalarga kirish (login/register) =====
+  // ===== 3. Auth sahifalarga kirish (login/register) =====
   if (isAuthRoute && (accessToken || refreshToken)) {
-    // Agar token bor bo'lsa, home'ga yo'naltirish
-    return NextResponse.redirect(new URL('/', request.url));
+    return NextResponse.redirect(new URL("/", request.url));
   }
 
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: [
-    '/((?!api|_next/static|_next/image|favicon.ico).*)',
-  ],
+  matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],
 };

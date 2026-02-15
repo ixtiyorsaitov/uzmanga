@@ -1,5 +1,6 @@
 import LogoVec from "@/public/vectors/logo-vec.webp";
 import Image from "next/image";
+import Link from "next/link";
 
 const Logo = ({
   winter = false,
@@ -9,7 +10,7 @@ const Logo = ({
   className?: string;
 }) => {
   return (
-    <div className="dark:text-foreground relative text-black">
+    <Link href={"/"} className="dark:text-foreground relative text-black">
       <LogoSvg className={className} />
       {winter && (
         <Image
@@ -18,7 +19,7 @@ const Logo = ({
           alt="logo"
         />
       )}
-    </div>
+    </Link>
   );
 };
 
