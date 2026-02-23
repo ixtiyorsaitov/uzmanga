@@ -13,7 +13,7 @@ export async function middleware(request: NextRequest) {
   if (match) {
     const slug = match[1];
     // Agar slug 'create' bo'lmasa (chunki u protected route bo'lishi mumkin)
-    if (slug !== "create") {
+    if (slug !== "add") {
       return NextResponse.redirect(
         new URL(`/mangas/${slug}/main`, request.url),
       );

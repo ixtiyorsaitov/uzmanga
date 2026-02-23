@@ -41,7 +41,7 @@ export const dropdownItems: DropdownItem[] = [
     label: "Kontent yaratish",
     href: "#",
     submenu: [
-      { label: "Manga", href: "#" },
+      { label: "Manga", href: "/mangas/add" },
       { label: "Jamoa", href: "#" },
       { label: "Gildiya", href: "#" },
       { label: "Personaj", href: "#" },

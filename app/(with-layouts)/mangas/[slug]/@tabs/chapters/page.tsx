@@ -33,7 +33,7 @@ const ChaptersPage = async ({
   return (
     <div>
       <FilterChapters ordering={ordering} search={search} />
-      <div className="grid gap-2">
+      <div className="grid">
         {chapters.length > 0 ? (
           chapters.map((chapter: IChapter) => (
             <Link

@@ -26,6 +26,7 @@ import {
 } from "@/components/ui/accordion";
 import LogoutIcon from "@/components/icons/logout.icon";
 import { useAuth } from "@/components/contexts/auth.context";
+import Link from "next/link";
 
 const UserDropdown = () => {
   const { logout } = useAuth();
@@ -58,9 +59,12 @@ const UserDropdown = () => {
                       <DropdownMenuItem
                         className="justify-between rounded-lg"
                         key={subItem.label}
+                        asChild
                       >
-                        {subItem.label}
-                        {subItem.icon}
+                        <Link href={subItem.href!}>
+                          {subItem.label}
+                          {subItem.icon}
+                        </Link>
                       </DropdownMenuItem>
                     ))}
                   </DropdownMenuSubContent>

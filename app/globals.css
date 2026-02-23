@@ -170,3 +170,13 @@
 .animate-accordion-up {
   animation: accordion-up 0.2s ease-out;
 } */
+
+.ProseMirror:focus {
+  outline: none;
+  border: none; /* or set border to 0 */
+}
+
+/* To remove any default border when not in focus, if present */
+.ProseMirror {
+  border: none;
+}

@@ -18,11 +18,13 @@ interface Props {
   className?: string;
   disableSize?: boolean;
   noPadding?: boolean;
+  contentClassName?: string;
 }
 const Wrapper = ({
   size = "xl",
   children,
   className,
+  contentClassName,
   disableSize,
   noPadding,
 }: Props) => {
@@ -35,7 +37,7 @@ const Wrapper = ({
       )}
     >
       <div
-        className="w-full"
+        className={cn("w-full", contentClassName)}
         style={{ maxWidth: disableSize ? "100%" : defineMaxWidth(size) + "px" }}
       >
         {children}
