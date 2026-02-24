@@ -99,7 +99,7 @@ export default function Footer() {
           <p>
             © {new Date().getFullYear()} UzManga. Barcha huquqlar himoyalangan.
           </p>
-          <p>Made with ❤️ in Uzbekistan</p>
+          <p>Created by ❤️ Ixtiyor</p>
         </div>
       </Wrapper>
     </footer>

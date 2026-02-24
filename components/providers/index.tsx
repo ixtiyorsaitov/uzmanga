@@ -9,7 +9,6 @@ const Providers = async ({ children }: { children: React.ReactNode }) => {
 
   try {
     const { data: res } = await api.get("/auth/me");
-    console.log(res);
 
     user = res.data.user;
   } catch (err) {

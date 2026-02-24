@@ -10,6 +10,7 @@ const ChapterPage = async ({
 }) => {
   const { chapterId } = await params;
   const chapterResponse = await ChapterService.getChapter(chapterId);
+  console.log(chapterResponse);
 
   if (!chapterResponse.success || !chapterResponse.data) {
     return redirect("/404");

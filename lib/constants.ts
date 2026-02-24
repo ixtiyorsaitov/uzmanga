@@ -4,6 +4,12 @@ import { ISlider } from "@/types/slider";
 
 export const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
+export const cacheStaleTimesInMilliseconds = {
+  minute: 1000 * 60,
+  hour: 1000 * 60 * 60,
+  day: 1000 * 60 * 60 * 24,
+};
+
 export const mangaData: IManga[] = [
   {
     id: "1",
@@ -194,33 +200,33 @@ export const progressData: IProgress[] = [
 
 export const sliderData: ISlider[] = [
   {
-    _id: '1',
+    _id: "1",
     manga: mangaData[0],
-    image: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+    image: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
   },
   {
-    _id: '2',
+    _id: "2",
     manga: mangaData[1],
-    image: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
+    image: "linear-gradient(135deg, #f093fb 0%, #f5576c 100%)",
   },
   {
-    _id: '3',
+    _id: "3",
     manga: mangaData[2],
-    image: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
+    image: "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)",
   },
   {
-    _id: '4',
+    _id: "4",
     manga: mangaData[3],
-    image: 'linear-gradient(135deg, #fa709a 0%, #fee140 100%)',
+    image: "linear-gradient(135deg, #fa709a 0%, #fee140 100%)",
   },
   {
-    _id: '5',
+    _id: "5",
     manga: mangaData[4],
-    image: 'linear-gradient(135deg, #30cfd0 0%, #330867 100%)',
+    image: "linear-gradient(135deg, #30cfd0 0%, #330867 100%)",
   },
   {
-    _id: '6',
+    _id: "6",
     manga: mangaData[5],
-    image: 'linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)',
+    image: "linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)",
   },
-]
+];

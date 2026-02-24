@@ -143,40 +143,23 @@
   .blur-card {
     @apply dark:bg-background/50 dark:backdrop-blur-sm bg-white p-3 rounded-xl;
   }
-}
 
-/* @keyframes accordion-down {
-  from {
-    height: 0;
+  body {
+    pointer-events: auto !important;
+    overflow: auto !important;
   }
-  to {
-    height: var(--radix-collapsible-content-height);
-  }
-}
 
-@keyframes accordion-up {
-  from {
-    height: var(--radix-collapsible-content-height);
-  }
-  to {
-    height: 0;
+  body[data-radix-scroll-locked] {
+    overflow: auto !important;
+    pointer-events: auto !important;
   }
 }
-
-.animate-accordion-down {
-  animation: accordion-down 0.2s ease-out;
-}
-
-.animate-accordion-up {
-  animation: accordion-up 0.2s ease-out;
-} */
 
 .ProseMirror:focus {
   outline: none;
-  border: none; /* or set border to 0 */
+  border: none;
 }
 
-/* To remove any default border when not in focus, if present */
 .ProseMirror {
   border: none;
 }

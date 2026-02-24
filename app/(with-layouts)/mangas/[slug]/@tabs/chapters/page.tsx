@@ -6,6 +6,7 @@ import { EyeIcon, HeartIcon } from "@/components/icons";
 import { IChapter } from "@/types/chapter";
 import { formatDate } from "date-fns";
 import LockIcon from "@/components/icons/lock.icon";
+import ChapterService from "@/services/chapter.service";
 
 const ChaptersPage = async ({
   params,
@@ -20,15 +21,18 @@ const ChaptersPage = async ({
   if (!mangaResponse.success || !mangaResponse.data) return;
   const manga = mangaResponse.data;
 
-  const chaptersResponse = await MangaService.getChaptersByMangaId(manga._id, {
-    search,
-    ordering,
-  });
+  const chaptersResponse = await ChapterService.getChaptersByMangaId(
+    manga._id,
+    {
+      search,
+      ordering,
+    },
+  );
+  console.log(chaptersResponse);
+
   if (!chaptersResponse.success || !chaptersResponse.data) return;
 
   const chapters = chaptersResponse.data.chapters;
-
-  console.log(chapters);
 
   return (
     <div>

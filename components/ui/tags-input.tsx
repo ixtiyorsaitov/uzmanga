@@ -152,8 +152,6 @@ export const TagsInput = React.forwardRef<HTMLDivElement, TagsInputProps>(
                 RemoveValue(value[activeIndex]);
                 moveCurrent();
               } else {
-                // YANGI, TEZROQ YECHIM: Dinamik tarzda tekshiramiz
-                // onSelect state lari o'rniga shu yerning o'zida input holatini bilish mumkin
                 const isFullySelected =
                   target.selectionStart === 0 &&
                   target.selectionEnd === target.value.length;
@@ -202,7 +200,7 @@ export const TagsInput = React.forwardRef<HTMLDivElement, TagsInputProps>(
           ref={ref}
           dir={dir}
           className={cn(
-            "flex items-center flex-wrap gap-1 p-1 rounded-lg bg-background overflow-hidden ring-1 ring-muted",
+            "flex items-center flex-wrap gap-1 p-1 rounded-lg overflow-hidden",
             {
               "focus-within:ring-ring": activeIndex === -1,
             },
@@ -218,7 +216,6 @@ export const TagsInput = React.forwardRef<HTMLDivElement, TagsInputProps>(
               className={cn(
                 "relative px-1 rounded-full flex items-center gap-1 data-[active='true']:ring-2 data-[active='true']:ring-muted-foreground truncate aria-disabled:opacity-50 aria-disabled:cursor-not-allowed",
               )}
-              variant={"secondary"}
             >
               <span className="text-xs">{item}</span>
               <button
@@ -246,7 +243,7 @@ export const TagsInput = React.forwardRef<HTMLDivElement, TagsInputProps>(
             placeholder={placeholder}
             onClick={() => setActiveIndex(-1)}
             className={cn(
-              "outline-0 border-none h-7 min-w-fit flex-1 focus-visible:outline-0 focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:border-0 placeholder:text-muted-foreground px-1",
+              "border-none h-7 bg-transparent! flex-1 px-1",
               activeIndex !== -1 && "caret-transparent",
             )}
           />

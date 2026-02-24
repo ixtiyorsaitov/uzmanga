@@ -62,14 +62,6 @@ class MangaService {
     const res = await api.get(`/mangas/${translator}`);
     return res.data;
   }
-
-  async getChaptersByMangaId(
-    mangaId: string,
-    params: ChapterQueryParams = { page: 1, limit: 10 },
-  ): Promise<ApiResponse<ChapterListResponse>> {
-    const res = await api.get(`/mangas/${mangaId}/chapters`, { params });
-    return res.data;
-  }
 }
 
 export default new MangaService();
