@@ -18,7 +18,7 @@ interface TextEditorProps {
   className?: string;
 }
 
-export function TextEditor({ value, onChange, className }: TextEditorProps) {
+export default function TextEditor({ value, onChange, className }: TextEditorProps) {
   const editor = useEditor({
     // Faqatgina bizga kerakli funksiyalarni ulaymiz:
     extensions: [

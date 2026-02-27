@@ -9,12 +9,17 @@ import Description from "./Description";
 import MangaTags from "./MangaTags";
 import { Button } from "@/components/ui/button";
 import MessageToModerator from "./MessageToModerator";
-import { useEffect } from "react";
 import useSelectBannerImageStore from "@/store/useSelectBannerImageStore";
 import useSelectCoverImageStore from "@/store/useSelectCoverImageStore";
 import AddMangaFields from "./AddMangaTitles";
+import { useCreateManga } from "@/components/hooks/api/useManga";
+import { useQueryClient } from "@tanstack/react-query";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 export default function AddMangaClient() {
+  const router = useRouter();
+  const queryClient = useQueryClient();
   const form = useForm<MangaSchema>({
     resolver: zodResolver(mangaSchema),
     defaultValues: {
@@ -27,34 +32,68 @@ export default function AddMangaClient() {
   const { bannerFile, setBannerError } = useSelectBannerImageStore();
   const { coverFile, setCoverError } = useSelectCoverImageStore();
 
+  const { mutate: createMutation } = useCreateManga();
+
   const onSubmit = (data: MangaSchema) => {
     let hasError = false;
-
     if (!bannerFile) {
       setBannerError(true);
+
       hasError = true;
     }
 
     if (!coverFile) {
       setCoverError(true);
+
       hasError = true;
     }
 
     if (hasError) {
       window.scrollTo({ top: 0, behavior: "smooth" });
+
       return;
     }
+    const formData = new FormData();
 
-    console.log("Hamma ma'lumotlar tayyor!", {
-      ...data,
-      bannerFile,
-      coverFile,
+    formData.append("title", data.title);
+    formData.append("description", data.description);
+    formData.append("releaseYear", String(data.releaseYear));
+    formData.append("type", data.type);
+    formData.append("ageRating", data.ageRating);
+    formData.append("status", data.status);
+    formData.append("translationStatus", data.translationStatus);
+
+    formData.append("categories", JSON.stringify(data.categories || []));
+    formData.append("genres", JSON.stringify(data.genres || []));
+
+    if (bannerFile) formData.append("banner", bannerFile);
+    if (coverFile) formData.append("cover", coverFile);
+
+    createMutation(formData, {
+      onSuccess: (res) => {
+        console.log(res);
+
+        queryClient.invalidateQueries({ queryKey: ["mangas"] });
+
+        toast.success("Manga muvaffaqiyatli moderatorga yuborildi!");
+
+        router.push("/");
+      },
+      onError: (error: any) => {
+        const message = error.message || "Kutilmagan xatolik yuz berdi";
+
+        toast.error(message, {
+          description: "Iltimos, ma'lumotlarni qayta tekshirib ko'ring.",
+        });
+
+        console.error("[CreateManga Error]:", error);
+      },
     });
   };
 
-  useEffect(() => {
-    if (bannerFile) setBannerError(false);
-  }, [bannerFile]);
+  // useEffect(() => {
+  //   if (bannerFile) setBannerError(false);
+  // }, [bannerFile]);
 
   return (
     <Wrapper className="mt-5" contentClassName="flex flex-col gap-4">

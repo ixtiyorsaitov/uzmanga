@@ -45,15 +45,17 @@ const SelectCoverImageModal = () => {
             </div>
           </div>
         ) : (
-          <ImageCropper
-            image={originalImage}
-            aspect={2 / 3} // Muqova uchun vertikal nisbat
-            onConfirm={(file) => {
-              setCover(file);
-              setOpen(false);
-            }}
-            onCancel={() => setOpen(false)}
-          />
+          <div className="overflow-auto max-h-[500px] scrollbar-thin">
+            <ImageCropper
+              image={originalImage}
+              aspect={2 / 3}
+              onConfirm={(file) => {
+                setCover(file);
+                setOpen(false);
+              }}
+              onCancel={() => setOpen(false)}
+            />
+          </div>
         )}
       </DialogContent>
     </Dialog>

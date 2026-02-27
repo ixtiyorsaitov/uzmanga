@@ -59,7 +59,6 @@ export default function UploadBanner() {
 
       <SelectBannerImageModal />
 
-      {/* Agar xatolik bo'lsa, xabarni chiqaramiz */}
       {bannerError && (
         <span className="text-destructive text-sm font-medium">
           Manga banner rasmi yuklanishi shart!

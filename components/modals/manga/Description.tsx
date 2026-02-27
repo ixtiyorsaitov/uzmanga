@@ -1,7 +1,13 @@
 import { Field, FieldError, FieldLabel } from "@/components/ui/field";
-import { TextEditor } from "@/components/ui/rich-text-editor";
+import { Skeleton } from "@/components/ui/skeleton";
 import { MangaSchema } from "@/lib/validations/manga.validations";
+import dynamic from "next/dynamic";
 import { Controller, useFormContext } from "react-hook-form";
+
+const TextEditor = dynamic(() => import("@/components/ui/rich-text-editor"), {
+  ssr: false,
+  loading: () => <Skeleton className="h-[102px] w-full rounded-lg" />,
+});
 
 export default function Description() {
   const { control } = useFormContext<MangaSchema>();

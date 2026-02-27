@@ -47,15 +47,17 @@ const SelectBannerImageModal = () => {
             </div>
           </div>
         ) : (
-          <ImageCropper
-            image={originalImage}
-            aspect={16 / 9}
-            onConfirm={(file) => {
-              setBanner(file);
-              setOpen(false);
-            }}
-            onCancel={() => setOpen(false)}
-          />
+          <div className="overflow-auto max-h-[500px] scrollbar-thin">
+            <ImageCropper
+              image={originalImage}
+              aspect={16 / 9}
+              onConfirm={(file) => {
+                setBanner(file);
+                setOpen(false);
+              }}
+              onCancel={() => setOpen(false)}
+            />
+          </div>
         )}
       </DialogContent>
     </Dialog>

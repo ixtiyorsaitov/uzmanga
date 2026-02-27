@@ -62,6 +62,11 @@ class MangaService {
     const res = await api.get(`/mangas/${translator}`);
     return res.data;
   }
+
+  async createManga(formData: FormData) {
+    const res = await api.post("/mangas", formData);
+    return res.data;
+  }
 }
 
 export default new MangaService();
