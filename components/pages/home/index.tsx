@@ -2,7 +2,6 @@
 
 import Wrapper from "@/components/layout/wrapper";
 import MangaSlider from "./MangaSlider";
-import { mangaData, progressData, sliderData } from "@/lib/constants";
 import HotUpdates from "./HotUpdates";
 import ProgressSlider from "./ProgressSlider";
 import HeaderTitle from "@/components/shared/HeaderTitle";
@@ -14,8 +13,6 @@ const HomePageClient = () => {
   const { user } = useAuth();
   const mangaQuery = useGetMangas();
   const mangaData = mangaQuery.data?.data?.mangas || [];
-
-  console.log(mangaData);
 
   const isAuthenticated = !!user;
   return (
@@ -33,17 +30,13 @@ const HomePageClient = () => {
         {isAuthenticated && (
           <div className="mt-10 md:block hidden">
             <HeaderTitle title="Davom ettirish" href="/history" />
-            <ProgressSlider progressData={progressData} />
+            <ProgressSlider progressData={[]} />
           </div>
         )}
 
         {/* Home Slider */}
         <div className="mt-5">
-          <HomeSlider
-            nextPrevButtons={false}
-            infiniteLoop
-            sliderData={sliderData}
-          />
+          <HomeSlider nextPrevButtons={false} infiniteLoop sliderData={[]} />
         </div>
       </Wrapper>
     </div>

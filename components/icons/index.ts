@@ -24,3 +24,5 @@ export { default as AlertIcon } from "./alert.icon";
 export { default as HeartIcon } from "./heart.icon";
 export { default as EyeIcon } from "./eye.icon";
 export { default as ArrowDownUpIcon } from "./arrowdownup.icon";
+export { default as SendIcon } from "./send.icon";
+export { default as PinIcon } from "./pin.icon";

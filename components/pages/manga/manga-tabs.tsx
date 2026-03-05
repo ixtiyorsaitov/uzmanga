@@ -10,6 +10,11 @@ export const MangaTabs = ({ slug }: { slug: string }) => {
   const tabs = [
     { name: "Asosiy", href: `/mangas/${slug}/main`, id: "main" },
     { name: "Boblar", href: `/mangas/${slug}/chapters`, id: "chapters" },
+    {
+      name: "Izohlar",
+      href: `/mangas/${slug}/comments`,
+      id: "comments",
+    },
   ];
 
   return (

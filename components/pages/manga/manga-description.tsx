@@ -5,14 +5,18 @@ import { Button } from "@/components/ui/button";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-export function MangaDescription({ text }: { text: string }) {
+export function MangaDescription({ htmlContent }: { htmlContent: string }) {
   const [isExpanded, setIsExpanded] = useState(false);
 
   return (
-    <div className="relative blur-card p-4">
-      <p className={cn("leading-relaxed", !isExpanded && "line-clamp-3 pr-8")}>
-        {text}
-      </p>
+    <div className="relative blur-card p-4 transition-all duration-300">
+      <div
+        className={cn(
+          "leading-relaxed prose prose-invert max-w-none text-sm",
+          !isExpanded && "line-clamp-3 pr-8",
+        )}
+        dangerouslySetInnerHTML={{ __html: htmlContent }}
+      />
 
       <Button
         onClick={() => setIsExpanded(!isExpanded)}

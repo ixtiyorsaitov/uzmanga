@@ -1,4 +1,5 @@
 import { MangaDescription } from "@/components/pages/manga/manga-description";
+import MangaDetailedInfo from "@/components/pages/manga/manga-detailed-info";
 import { Badge, badgeVariants } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import MangaService from "@/services/manga.service";
@@ -12,12 +13,11 @@ export default async function MainTabPage({
   const { slug } = await params;
   const response = await MangaService.getManga(slug);
   const manga = response.data;
-  console.log(manga);
 
   return (
     manga && (
       <div className="space-y-2">
-        <MangaDescription text={manga.description} />
+        <MangaDescription htmlContent={manga.description} />
 
         <div className="blur-card">
           {manga.categories.map((category) => (
@@ -25,7 +25,19 @@ export default async function MainTabPage({
               href={`/mangas?categories=${category._id}`}
               className={cn(
                 badgeVariants({ variant: "secondary" }),
-                "hover:bg-secondary bg-transparent transition cursor-pointer text-sm",
+                "hover:bg-secondary hover:text-primary bg-transparent transition cursor-pointer text-sm",
+              )}
+              key={category._id}
+            >
+              {category.name}
+            </Link>
+          ))}
+          {manga.genres.map((category) => (
+            <Link
+              href={`/mangas?categories=${category._id}`}
+              className={cn(
+                badgeVariants({ variant: "secondary" }),
+                "hover:bg-secondary hover:text-primary bg-transparent transition cursor-pointer text-sm",
               )}
               key={category._id}
             >
@@ -33,6 +45,7 @@ export default async function MainTabPage({
             </Link>
           ))}
         </div>
+        <MangaDetailedInfo manga={manga} />
       </div>
     )
   );
