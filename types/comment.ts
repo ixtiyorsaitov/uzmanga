@@ -12,8 +12,10 @@ export interface IComment {
     user: IUser;
   } | null;
   isPinned: boolean;
-  likesCount: number;
-  repliesCount: number;
+  stats: {
+    likes: number;
+    replies: number;
+  };
   createdAt: Date;
   updatedAt: Date;
 }
@@ -32,6 +34,10 @@ export interface CommentsQueryParams {
 export interface GetCommentsArgs {
   targetId: string;
   params: CommentsQueryParams;
+}
+
+export interface GetRepliedCommentsArgs extends GetCommentsArgs {
+  parentId: string;
 }
 
 export interface CreateCommentArgs extends GetCommentsArgs {

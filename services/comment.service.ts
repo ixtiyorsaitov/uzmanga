@@ -5,6 +5,7 @@ import {
   CreateCommentArgs,
   IComment,
   CreateReplyCommentArgs,
+  GetRepliedCommentsArgs,
 } from "@/types/comment";
 import { cache } from "react";
 
@@ -14,6 +15,17 @@ class CommentService {
     params,
   }: GetCommentsArgs): Promise<ApiResponse<IComment[]>> => {
     const res = await api.get(`/comments/${targetId}`, { params });
+    return res.data;
+  };
+
+  getRepliedComments = async ({
+    targetId,
+    parentId,
+    params,
+  }: GetRepliedCommentsArgs): Promise<ApiResponse<IComment[]>> => {
+    const res = await api.get(`/comments/${targetId}/${parentId}/replies`, {
+      params,
+    });
     return res.data;
   };
 

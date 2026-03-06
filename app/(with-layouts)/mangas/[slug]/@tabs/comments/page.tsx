@@ -16,6 +16,7 @@ export default async function Comments({
     <CommentsSection
       targetId={manga._id}
       targetType={CommentTargetType.MANGA}
+      commentsCount={manga.stats.comments}
     />
   );
 }

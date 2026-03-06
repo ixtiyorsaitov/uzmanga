@@ -24,4 +24,11 @@ export interface IManga {
   genres: IGenre[];
   slug: string;
   createdBy: IUser;
+  stats: {
+    comments: number;
+    views: number;
+    bookmarks: number;
+    likes: number;
+    dislikes: number;
+  };
 }

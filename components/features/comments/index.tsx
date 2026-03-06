@@ -20,15 +20,20 @@ import {
 import { toast } from "sonner";
 import { useQueryClient } from "@tanstack/react-query";
 import { appToast } from "@/lib/app-toast";
+import CommentCardSkeleton from "./CommentCardSkeleton";
 
 interface CommentSectionProps {
   targetId: string;
   targetType: CommentTargetType;
+  commentsCount: number;
 }
+
+const limitComments = 10;
 
 export default function CommentsSection({
   targetId,
   targetType,
+  commentsCount,
 }: CommentSectionProps) {
   const queryClient = useQueryClient();
 
@@ -81,7 +86,14 @@ export default function CommentsSection({
         onSuccess: (res) => {
           console.log(res);
 
-          queryClient.invalidateQueries({ queryKey: ["comments", targetId] });
+          appToast.success(res.message);
+
+          queryClient.invalidateQueries({
+            queryKey: ["comments", targetId],
+          });
+          queryClient.invalidateQueries({
+            queryKey: ["replied-comments", activeReplyId],
+          });
 
           setActiveReplyId(null);
           replyForm.reset();
@@ -157,7 +169,16 @@ export default function CommentsSection({
           className="space-y-4"
         >
           {getComments.isLoading ? (
-            <>Loading</>
+            <>
+              {Array.from({
+                length:
+                  commentsCount <= limitComments
+                    ? commentsCount
+                    : limitComments,
+              }).map((_, i) => (
+                <CommentCardSkeleton key={i} />
+              ))}
+            </>
           ) : (
             comments.map((c) => <CommentCard key={c._id} comment={c} />)
           )}

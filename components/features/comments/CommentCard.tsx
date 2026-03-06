@@ -17,38 +17,51 @@ import Link from "next/link";
 import { Separator } from "@/components/ui/separator";
 import CommentInput from "./CommentInput";
 import useCommentStore from "@/store/comment.store";
+import { useGetRepliedComments } from "@/components/hooks/api/useComments";
+import CommentCardSkeleton from "./CommentCardSkeleton";
+
+const limitReplies = 5;
 
 interface CommentProps {
   comment: IComment;
   isRepliedComment?: boolean;
+  rootId?: string;
 }
 
 export default function CommentCard({
   comment,
   isRepliedComment,
+  rootId,
 }: CommentProps) {
-  const { activeReplyId, setActiveReplyId } = useCommentStore();
+  const [showReplies, setShowReplies] = useState(false);
+
+  const { data: repliedComments, isLoading: repliedCommentsLoading } =
+    useGetRepliedComments({
+      parentId: (showReplies ? comment._id : null)!,
+      targetId: comment.targetId,
+      params: { targetType: comment.targetType },
+    });
+
+  const { activeReplyId, setActiveReplyId, replyingToCommentId } =
+    useCommentStore();
   const [isExpanded, setIsExpanded] = useState(false);
   const [showButton, setShowButton] = useState(false);
 
   const textRef = useRef<HTMLDivElement>(null);
 
-  const {
-    author,
-    content,
-    createdAt,
-    isPinned,
-    replyTo,
-    likesCount,
-    repliesCount,
-  } = comment;
+  const { author, content, createdAt, isPinned, replyTo, stats } = comment;
 
   const handleReplyClick = (replyToCommentId: string) => {
-    setActiveReplyId(comment._id, replyToCommentId);
-    // if (isReplying) {
-    //   setActiveReplyId(null);
-    // } else {
-    // }
+    if (activeReplyId !== null) {
+      setActiveReplyId(null);
+    } else {
+      const mainParentId = isRepliedComment && rootId ? rootId : comment._id;
+      setActiveReplyId(mainParentId, replyToCommentId);
+    }
+  };
+
+  const handleShowReplies = () => {
+    setShowReplies((prev) => !prev);
   };
 
   useEffect(() => {
@@ -96,10 +109,17 @@ export default function CommentCard({
               "text-sm leading-relaxed text-muted-foreground prose prose-invert prose-sm max-w-none wrap-break-word",
               !isExpanded && "line-clamp-3",
             )}
-            dangerouslySetInnerHTML={{
-              __html: `${isRepliedComment && replyTo ? `<span class="text-primary font-semibold">${replyTo.user.name}, </span>` : ""}${content}`,
-            }}
-          />
+          >
+            {isRepliedComment && replyTo && (
+              <span className="text-primary font-semibold mr-1 inline">
+                {replyTo.user.name},
+              </span>
+            )}
+            <span
+              className="[&>p]:inline [&>p]:m-0"
+              dangerouslySetInnerHTML={{ __html: content }}
+            />
+          </div>
 
           {showButton && (
             <button
@@ -136,7 +156,7 @@ export default function CommentCard({
               className="flex items-center gap-1.5 hover:text-destructive transition-colors"
             >
               <Heart className="size-4" />
-              <span>{likesCount}</span>
+              <span>{stats.likes}</span>
             </button>
             <button
               type="button"
@@ -146,15 +166,20 @@ export default function CommentCard({
             </button>
           </div>
         </div>
-        {repliesCount > 0 && !isRepliedComment && (
-          <div className="mt-2 flex items-center justify-start gap-2">
+        {stats.replies > 0 && !isRepliedComment && (
+          <div
+            onClick={handleShowReplies}
+            className="mt-2 flex items-center justify-start gap-2"
+          >
             <Separator className="w-[30px]!" />
             <p className="text-xs text-primary font-bold hover:underline underline-offset-2 cursor-pointer">
-              {repliesCount} ta javoblarni ko'rish
+              {stats.replies} ta{" "}
+              {stats.replies === 1 ? "javobni" : "javoblarni"}{" "}
+              {showReplies ? "yashirish" : "ko'rish"}
             </p>
           </div>
         )}
-        {activeReplyId === comment._id && (
+        {replyingToCommentId === comment._id && (
           <div className="mt-4">
             <CommentInput
               formId="reply-comment"
@@ -164,7 +189,31 @@ export default function CommentCard({
         )}
 
         {/* Replies */}
-        {!isRepliedComment && <div className="space-y-2 mt-2"></div>}
+        {!isRepliedComment && (
+          <div className="space-y-2 mt-2">
+            {repliedCommentsLoading ? (
+              <>
+                {Array.from({
+                  length:
+                    comment.stats.replies <= limitReplies
+                      ? comment.stats.replies
+                      : limitReplies,
+                }).map((_, i) => (
+                  <CommentCardSkeleton isRepliedComment key={i} />
+                ))}
+              </>
+            ) : (
+              repliedComments?.data?.map((c) => (
+                <CommentCard
+                  key={c._id}
+                  rootId={comment._id}
+                  comment={c}
+                  isRepliedComment
+                />
+              ))
+            )}
+          </div>
+        )}
       </div>
     </div>
   );
