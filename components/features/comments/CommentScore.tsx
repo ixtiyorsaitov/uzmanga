@@ -25,8 +25,6 @@ export default function CommentScore({
       { commentId, value },
       {
         onSuccess: (res) => {
-          console.log(res);
-
           setValue(res.data!.userReaction);
           setScore(res.data!.score);
         },
