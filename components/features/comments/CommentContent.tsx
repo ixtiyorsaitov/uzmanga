@@ -3,10 +3,11 @@
 import { useState, useRef, useEffect } from "react";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { ICommentReplyTo } from "@/types/comment";
 
 interface CommentContentProps {
   content: string;
-  replyTo?: { user: { name: string } };
+  replyTo: ICommentReplyTo | null;
   isRepliedComment?: boolean;
 }
 

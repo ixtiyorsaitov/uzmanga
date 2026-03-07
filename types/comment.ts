@@ -7,10 +7,7 @@ export interface IComment {
   author: IUser;
   content: string;
   parentId: string | null;
-  replyTo: {
-    commentId: string;
-    user: IUser;
-  } | null;
+  replyTo: ICommentReplyTo | null;
   isPinned: boolean;
   stats: {
     likes: number;
@@ -20,6 +17,11 @@ export interface IComment {
   updatedAt: Date;
 }
 
+export interface ICommentReplyTo {
+  commentId: string;
+  user: IUser;
+}
+
 export enum CommentTargetType {
   MANGA = "Manga",
   CHAPTER = "Chapter",
@@ -27,10 +29,9 @@ export enum CommentTargetType {
 }
 export interface CommentsQueryParams {
   targetType: CommentTargetType;
-  parentId?: string | null; // Replylarni olish uchun ixtiyoriy
+  parentId?: string | null; 
 }
 
-// Buni soddalashtiramiz, chunki endi bitta funksiya hammasini bajara oladi
 export interface GetCommentsArgs {
   targetId: string;
   params: CommentsQueryParams;

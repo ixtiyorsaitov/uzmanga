@@ -9,18 +9,20 @@ import {
   CommentSchema,
   commentSchema,
 } from "@/lib/validations/comment.validations";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CommentTargetType, IComment } from "@/types/comment";
 import useCommentStore from "@/store/comment.store";
 import {
   useCreateComment,
   useCreateReplyComment,
+  useDeleteComment,
   useGetComments,
 } from "@/components/hooks/api/useComments";
 import { toast } from "sonner";
 import { useQueryClient } from "@tanstack/react-query";
 import { appToast } from "@/lib/app-toast";
 import CommentCardSkeleton from "./CommentCardSkeleton";
+import DeleteCommentModal from "@/components/modals/comments/DeleteCommentModal";
 
 interface CommentSectionProps {
   targetId: string;
@@ -52,6 +54,7 @@ export default function CommentsSection({
   } = useCommentStore();
   const createMainComment = useCreateComment();
   const createReplyComment = useCreateReplyComment();
+  const deleteComment = useDeleteComment();
   const mainForm = useForm<CommentSchema>({
     resolver: zodResolver(commentSchema),
     defaultValues: {
@@ -134,6 +137,7 @@ export default function CommentsSection({
       },
     );
   };
+
   return (
     <div className="mx-auto flex flex-col gap-6">
       <FormProvider {...mainForm}>
@@ -184,6 +188,8 @@ export default function CommentsSection({
           )}
         </form>
       </FormProvider>
+
+      <DeleteCommentModal targetId={targetId} />
     </div>
   );
 }

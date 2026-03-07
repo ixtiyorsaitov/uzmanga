@@ -1,26 +1,24 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
-import {
-  Heart,
-  MoreHorizontal,
-  ChevronDown,
-  ChevronUp,
-  HeartCrack,
-} from "lucide-react";
+import { Heart, MoreHorizontal, HeartCrack } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { IComment } from "@/types/comment";
+import { IComment, ICommentReplyTo } from "@/types/comment";
 import { format } from "date-fns";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { PinIcon } from "@/components/icons";
 import Link from "next/link";
-import { Separator } from "@/components/ui/separator";
 import CommentInput from "./CommentInput";
 import useCommentStore from "@/store/comment.store";
-import { useGetRepliedComments } from "@/components/hooks/api/useComments";
-import CommentCardSkeleton from "./CommentCardSkeleton";
 
-const limitReplies = 5;
+import CommentContent from "./CommentContent";
+import CommentReplies from "./CommentReplies";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Button } from "@/components/ui/button";
 
 interface CommentProps {
   comment: IComment;
@@ -33,21 +31,12 @@ export default function CommentCard({
   isRepliedComment,
   rootId,
 }: CommentProps) {
-  const [showReplies, setShowReplies] = useState(false);
-
-  const { data: repliedComments, isLoading: repliedCommentsLoading } =
-    useGetRepliedComments({
-      parentId: (showReplies ? comment._id : null)!,
-      targetId: comment.targetId,
-      params: { targetType: comment.targetType },
-    });
-
-  const { activeReplyId, setActiveReplyId, replyingToCommentId } =
-    useCommentStore();
-  const [isExpanded, setIsExpanded] = useState(false);
-  const [showButton, setShowButton] = useState(false);
-
-  const textRef = useRef<HTMLDivElement>(null);
+  const {
+    activeReplyId,
+    setActiveReplyId,
+    replyingToCommentId,
+    setCommentToDelete,
+  } = useCommentStore();
 
   const { author, content, createdAt, isPinned, replyTo, stats } = comment;
 
@@ -60,17 +49,9 @@ export default function CommentCard({
     }
   };
 
-  const handleShowReplies = () => {
-    setShowReplies((prev) => !prev);
+  const handleDeleteClick = () => {
+    setCommentToDelete(comment._id, isRepliedComment ? rootId : null);
   };
-
-  useEffect(() => {
-    if (textRef.current) {
-      const isOverflowing =
-        textRef.current.scrollHeight > textRef.current.clientHeight;
-      setShowButton(isOverflowing);
-    }
-  }, [content]);
 
   return (
     <div
@@ -93,52 +74,31 @@ export default function CommentCard({
           </div>
           <div className="flex items-center justify-end gap-2">
             {isPinned && !isRepliedComment && <PinIcon />}
-            <button
-              type="button"
-              className="text-muted-foreground hover:text-foreground transition-colors"
-            >
-              <MoreHorizontal className="size-5" />
-            </button>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  variant="ghost"
+                  className="hover:bg-accent size-8"
+                  size={"icon"}
+                >
+                  <MoreHorizontal className="size-5" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuItem>Tahrirlash</DropdownMenuItem>
+                <DropdownMenuItem onClick={handleDeleteClick}>
+                  O'chirish
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
         </div>
 
-        <div className="mb-3 relative group">
-          <div
-            ref={textRef}
-            className={cn(
-              "text-sm leading-relaxed text-muted-foreground prose prose-invert prose-sm max-w-none wrap-break-word",
-              !isExpanded && "line-clamp-3",
-            )}
-          >
-            {isRepliedComment && replyTo && (
-              <span className="text-primary font-semibold mr-1 inline">
-                {replyTo.user.name},
-              </span>
-            )}
-            <span
-              className="[&>p]:inline [&>p]:m-0"
-              dangerouslySetInnerHTML={{ __html: content }}
-            />
-          </div>
-
-          {showButton && (
-            <button
-              onClick={() => setIsExpanded(!isExpanded)}
-              className="text-xs text-primary cursor-pointer transition-colors mt-1.5 flex items-center gap-1 font-medium"
-              type="button"
-            >
-              {isExpanded ? (
-                <>
-                  Qisqartirish <ChevronUp className="size-3" />
-                </>
-              ) : (
-                <>
-                  Ko'proq o'qish <ChevronDown className="size-3" />
-                </>
-              )}
-            </button>
-          )}
-        </div>
+        <CommentContent
+          content={content}
+          replyTo={replyTo}
+          isRepliedComment={isRepliedComment}
+        />
 
         <div className="flex items-center gap-4 text-xs text-muted-foreground">
           <span>{format(createdAt, "dd MMM yyyy")}</span>
@@ -166,19 +126,7 @@ export default function CommentCard({
             </button>
           </div>
         </div>
-        {stats.replies > 0 && !isRepliedComment && (
-          <div
-            onClick={handleShowReplies}
-            className="mt-2 flex items-center justify-start gap-2"
-          >
-            <Separator className="w-[30px]!" />
-            <p className="text-xs text-primary font-bold hover:underline underline-offset-2 cursor-pointer">
-              {stats.replies} ta{" "}
-              {stats.replies === 1 ? "javobni" : "javoblarni"}{" "}
-              {showReplies ? "yashirish" : "ko'rish"}
-            </p>
-          </div>
-        )}
+
         {replyingToCommentId === comment._id && (
           <div className="mt-4">
             <CommentInput
@@ -188,31 +136,8 @@ export default function CommentCard({
           </div>
         )}
 
-        {/* Replies */}
         {!isRepliedComment && (
-          <div className="space-y-2 mt-2">
-            {repliedCommentsLoading ? (
-              <>
-                {Array.from({
-                  length:
-                    comment.stats.replies <= limitReplies
-                      ? comment.stats.replies
-                      : limitReplies,
-                }).map((_, i) => (
-                  <CommentCardSkeleton isRepliedComment key={i} />
-                ))}
-              </>
-            ) : (
-              repliedComments?.data?.map((c) => (
-                <CommentCard
-                  key={c._id}
-                  rootId={comment._id}
-                  comment={c}
-                  isRepliedComment
-                />
-              ))
-            )}
-          </div>
+          <CommentReplies comment={comment} rootId={rootId} />
         )}
       </div>
     </div>

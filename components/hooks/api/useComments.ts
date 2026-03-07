@@ -27,8 +27,8 @@ export const useGetRepliedComments = (args: GetRepliedCommentsArgs) => {
     queryFn: async () => commentService.getRepliedComments(args),
     enabled: !!args.parentId,
     staleTime: cacheStaleTimesInMilliseconds.minute * 5,
-  })
-}
+  });
+};
 
 export const useCreateComment = () => {
   return useMutation({
@@ -40,5 +40,11 @@ export const useCreateReplyComment = () => {
   return useMutation({
     mutationFn: (data: CreateReplyCommentArgs) =>
       commentService.createReplyComment(data),
+  });
+};
+
+export const useDeleteComment = () => {
+  return useMutation({
+    mutationFn: (commentId: string) => commentService.deleteComment(commentId),
   });
 };
