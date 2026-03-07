@@ -5,6 +5,7 @@ import {
   CreateCommentArgs,
   CreateReplyCommentArgs,
   GetRepliedCommentsArgs,
+  ReactCommentArgs,
   UpdateCommentArgs,
 } from "@/types/comment";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -53,5 +54,11 @@ export const useUpdateComment = () => {
 export const useDeleteComment = () => {
   return useMutation({
     mutationFn: (commentId: string) => commentService.deleteComment(commentId),
+  });
+};
+
+export const useReactComment = () => {
+  return useMutation({
+    mutationFn: (data: ReactCommentArgs) => commentService.toggleReaction(data),
   });
 };

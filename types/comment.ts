@@ -10,9 +10,10 @@ export interface IComment {
   replyTo: ICommentReplyTo | null;
   isPinned: boolean;
   stats: {
-    likes: number;
+    score: number;
     replies: number;
   };
+  userReaction: 1 | -1 | null;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -57,4 +58,9 @@ export interface CreateReplyCommentArgs extends GetCommentsArgs {
 export interface UpdateCommentArgs {
   commentId: string;
   content: string;
+}
+
+export interface ReactCommentArgs {
+  commentId: string;
+  value: 1 | -1;
 }

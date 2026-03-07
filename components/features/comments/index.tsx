@@ -42,6 +42,8 @@ export default function CommentsSection({
   const getComments = useGetComments(targetId, targetType);
 
   const comments = getComments.data?.data || [];
+  console.log(comments);
+
   const createComment = useCreateComment();
 
   const [filter, setFilter] = useState("newest");

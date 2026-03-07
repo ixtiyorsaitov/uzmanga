@@ -69,6 +69,7 @@ export default function UpdateCommentForm({
             formId={`update-comment-${commentId}`}
             onCancelClick={onCancel}
             submitButtonText="Tahrirlash"
+            disabled={updateMutation.isPending}
           />
         </form>
       </FormProvider>

@@ -23,6 +23,7 @@ import { useState } from "react";
 import { useFormContext } from "react-hook-form";
 import { CommentSchema } from "@/lib/validations/comment.validations";
 import UpdateCommentForm from "./UpdateCommentForm";
+import CommentScore from "./CommentScore";
 
 interface CommentProps {
   comment: IComment;
@@ -135,21 +136,7 @@ export default function CommentCard({
             Javob berish
           </button>
 
-          <div className="ml-auto flex items-center gap-3">
-            <button
-              type="button"
-              className="flex items-center gap-1.5 hover:text-destructive transition-colors"
-            >
-              <Heart className="size-4" />
-              <span>{stats.likes}</span>
-            </button>
-            <button
-              type="button"
-              className="hover:text-foreground transition-colors"
-            >
-              <HeartCrack className="size-4" />
-            </button>
-          </div>
+          <CommentScore score={comment.stats.score} commentId={comment._id} userReaction={comment.userReaction} />
         </div>
 
         {replyingToCommentId === comment._id && (

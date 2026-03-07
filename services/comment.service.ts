@@ -7,6 +7,7 @@ import {
   CreateReplyCommentArgs,
   GetRepliedCommentsArgs,
   UpdateCommentArgs,
+  ReactCommentArgs,
 } from "@/types/comment";
 import { cache } from "react";
 
@@ -65,10 +66,13 @@ class CommentService {
     return res.data;
   };
 
-  toggleLike = async (
-    commentId: string,
-  ): Promise<ApiResponse<{ likesCount: number }>> => {
-    const res = await api.post(`/comments/${commentId}/like`);
+  toggleReaction = async ({
+    commentId,
+    value,
+  }: ReactCommentArgs): Promise<
+    ApiResponse<{ score: number; userReaction: 1 | -1 }>
+  > => {
+    const res = await api.post(`/comments/${commentId}/react`, { value });
     return res.data;
   };
 }
