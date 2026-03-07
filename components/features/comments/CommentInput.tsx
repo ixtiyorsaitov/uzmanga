@@ -24,6 +24,7 @@ interface CommentInputProps {
   editorActive?: boolean;
   setEditorActive?: (editorActive: boolean) => void;
   disabled?: boolean;
+  submitButtonText?: string;
 }
 
 export default function CommentInput({
@@ -33,6 +34,7 @@ export default function CommentInput({
   editorActive,
   setEditorActive,
   disabled,
+  submitButtonText,
 }: CommentInputProps) {
   const { control } = useFormContext<CommentSchema>();
 
@@ -77,7 +79,7 @@ export default function CommentInput({
                   type="submit"
                   form={formId}
                 >
-                  {"Jo'natish"}
+                  {submitButtonText ?? "Jo'natish"}
                 </Button>
               </>
             }

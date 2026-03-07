@@ -6,17 +6,20 @@ import { useGetRepliedComments } from "@/components/hooks/api/useComments";
 import CommentCardSkeleton from "./CommentCardSkeleton";
 import CommentCard from "./CommentCard"; // Aylanma (circular) import bo'ladi, bu React'da normal
 import { IComment } from "@/types/comment";
+import { CommentSchema } from "@/lib/validations/comment.validations";
 
 const limitReplies = 5;
 
 interface CommentRepliesProps {
   comment: IComment;
   rootId?: string;
+  onReplySubmit: (data: CommentSchema) => void;
 }
 
 export default function CommentReplies({
   comment,
   rootId,
+  onReplySubmit,
 }: CommentRepliesProps) {
   const [showReplies, setShowReplies] = useState(false);
 
@@ -68,6 +71,7 @@ export default function CommentReplies({
                 rootId={rootId || comment._id} // Root ID ni uzatish
                 comment={c}
                 isRepliedComment
+                onReplySubmit={onReplySubmit}
               />
             ))
           )}

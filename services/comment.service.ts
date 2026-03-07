@@ -6,6 +6,7 @@ import {
   IComment,
   CreateReplyCommentArgs,
   GetRepliedCommentsArgs,
+  UpdateCommentArgs,
 } from "@/types/comment";
 import { cache } from "react";
 
@@ -48,6 +49,14 @@ class CommentService {
     const res = await api.post(`/comments/${targetId}/reply`, data, {
       params,
     });
+    return res.data;
+  };
+
+  updateComment = async ({
+    commentId,
+    content,
+  }: UpdateCommentArgs): Promise<ApiResponse<IComment>> => {
+    const res = await api.put(`/comments/${commentId}`, { content });
     return res.data;
   };
 

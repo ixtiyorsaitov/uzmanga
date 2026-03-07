@@ -29,7 +29,7 @@ export enum CommentTargetType {
 }
 export interface CommentsQueryParams {
   targetType: CommentTargetType;
-  parentId?: string | null; 
+  parentId?: string | null;
 }
 
 export interface GetCommentsArgs {
@@ -52,4 +52,9 @@ export interface CreateReplyCommentArgs extends GetCommentsArgs {
     parentId: string;
     replyToCommentId: string | null;
   };
+}
+
+export interface UpdateCommentArgs {
+  commentId: string;
+  content: string;
 }

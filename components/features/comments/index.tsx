@@ -54,7 +54,6 @@ export default function CommentsSection({
   } = useCommentStore();
   const createMainComment = useCreateComment();
   const createReplyComment = useCreateReplyComment();
-  const deleteComment = useDeleteComment();
   const mainForm = useForm<CommentSchema>({
     resolver: zodResolver(commentSchema),
     defaultValues: {
@@ -167,26 +166,24 @@ export default function CommentsSection({
       </FormProvider>
 
       <FormProvider {...replyForm}>
-        <form
-          id="reply-comment"
-          onSubmit={replyForm.handleSubmit(onReplySubmit)}
-          className="space-y-4"
-        >
-          {getComments.isLoading ? (
-            <>
-              {Array.from({
-                length:
-                  commentsCount <= limitComments
-                    ? commentsCount
-                    : limitComments,
-              }).map((_, i) => (
-                <CommentCardSkeleton key={i} />
-              ))}
-            </>
-          ) : (
-            comments.map((c) => <CommentCard key={c._id} comment={c} />)
-          )}
-        </form>
+        {getComments.isLoading ? (
+          <>
+            {Array.from({
+              length:
+                commentsCount <= limitComments ? commentsCount : limitComments,
+            }).map((_, i) => (
+              <CommentCardSkeleton key={i} />
+            ))}
+          </>
+        ) : (
+          comments.map((c) => (
+            <CommentCard
+              onReplySubmit={onReplySubmit}
+              key={c._id}
+              comment={c}
+            />
+          ))
+        )}
       </FormProvider>
 
       <DeleteCommentModal targetId={targetId} />

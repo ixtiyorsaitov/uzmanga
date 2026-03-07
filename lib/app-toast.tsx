@@ -25,7 +25,7 @@ export const appToast = {
   warning: (message: string, options = {}) =>
     toast.warning(message, {
       className: cn(
-        "dark:bg-warning-700! bg-warning-500! text-white!",
+        "dark:bg-orange-700! bg-orange-500! text-white!",
         requiredStyle,
       ),
       ...options,
@@ -34,10 +34,7 @@ export const appToast = {
 
   info: (message: string, options = {}) =>
     toast(message, {
-      className: cn(
-        "dark:bg-info-900! bg-info-500! text-white!",
-        requiredStyle,
-      ),
+      className: cn("dark:bg-primary! bg-primary! text-white!", requiredStyle),
       ...options,
       icon: <InfoIcon className="h-4! w-4!" />,
     }),

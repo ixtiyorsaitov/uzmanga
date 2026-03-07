@@ -2,7 +2,7 @@
 
 import { Heart, MoreHorizontal, HeartCrack } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { IComment, ICommentReplyTo } from "@/types/comment";
+import { IComment } from "@/types/comment";
 import { format } from "date-fns";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { PinIcon } from "@/components/icons";
@@ -19,17 +19,23 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
+import { useState } from "react";
+import { useFormContext } from "react-hook-form";
+import { CommentSchema } from "@/lib/validations/comment.validations";
+import UpdateCommentForm from "./UpdateCommentForm";
 
 interface CommentProps {
   comment: IComment;
   isRepliedComment?: boolean;
   rootId?: string;
+  onReplySubmit: (data: CommentSchema) => void;
 }
 
 export default function CommentCard({
   comment,
   isRepliedComment,
   rootId,
+  onReplySubmit,
 }: CommentProps) {
   const {
     activeReplyId,
@@ -38,7 +44,11 @@ export default function CommentCard({
     setCommentToDelete,
   } = useCommentStore();
 
-  const { author, content, createdAt, isPinned, replyTo, stats } = comment;
+  const replyForm = useFormContext<CommentSchema>();
+
+  const [isEditing, setIsEditing] = useState(false);
+
+  const { author, createdAt, isPinned, replyTo, stats } = comment;
 
   const handleReplyClick = (replyToCommentId: string) => {
     if (activeReplyId !== null) {
@@ -51,6 +61,10 @@ export default function CommentCard({
 
   const handleDeleteClick = () => {
     setCommentToDelete(comment._id, isRepliedComment ? rootId : null);
+  };
+
+  const handleEditClick = () => {
+    setIsEditing(true);
   };
 
   return (
@@ -85,7 +99,9 @@ export default function CommentCard({
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent>
-                <DropdownMenuItem>Tahrirlash</DropdownMenuItem>
+                <DropdownMenuItem onClick={handleEditClick}>
+                  Tahrirlash
+                </DropdownMenuItem>
                 <DropdownMenuItem onClick={handleDeleteClick}>
                   O'chirish
                 </DropdownMenuItem>
@@ -94,11 +110,20 @@ export default function CommentCard({
           </div>
         </div>
 
-        <CommentContent
-          content={content}
-          replyTo={replyTo}
-          isRepliedComment={isRepliedComment}
-        />
+        {isEditing ? (
+          <UpdateCommentForm
+            commentId={comment._id}
+            initialContent={comment.content}
+            onCancel={() => setIsEditing(false)}
+            onSuccess={() => setIsEditing(false)}
+          />
+        ) : (
+          <CommentContent
+            content={comment.content}
+            replyTo={replyTo}
+            isRepliedComment={isRepliedComment}
+          />
+        )}
 
         <div className="flex items-center gap-4 text-xs text-muted-foreground">
           <span>{format(createdAt, "dd MMM yyyy")}</span>
@@ -129,15 +154,27 @@ export default function CommentCard({
 
         {replyingToCommentId === comment._id && (
           <div className="mt-4">
-            <CommentInput
-              formId="reply-comment"
-              onCancelClick={() => setActiveReplyId(null)}
-            />
+            <form
+              id="reply-comment"
+              onSubmit={replyForm.handleSubmit(onReplySubmit)}
+            >
+              <CommentInput
+                formId="reply-comment"
+                onCancelClick={() => {
+                  setActiveReplyId(null);
+                  replyForm.reset();
+                }}
+              />
+            </form>
           </div>
         )}
 
         {!isRepliedComment && (
-          <CommentReplies comment={comment} rootId={rootId} />
+          <CommentReplies
+            onReplySubmit={onReplySubmit}
+            comment={comment}
+            rootId={rootId}
+          />
         )}
       </div>
     </div>

@@ -5,6 +5,7 @@ import {
   CreateCommentArgs,
   CreateReplyCommentArgs,
   GetRepliedCommentsArgs,
+  UpdateCommentArgs,
 } from "@/types/comment";
 import { useMutation, useQuery } from "@tanstack/react-query";
 
@@ -40,6 +41,12 @@ export const useCreateReplyComment = () => {
   return useMutation({
     mutationFn: (data: CreateReplyCommentArgs) =>
       commentService.createReplyComment(data),
+  });
+};
+
+export const useUpdateComment = () => {
+  return useMutation({
+    mutationFn: (data: UpdateCommentArgs) => commentService.updateComment(data),
   });
 };
 
