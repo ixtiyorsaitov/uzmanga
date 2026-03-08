@@ -9,20 +9,19 @@ import {
   CommentSchema,
   commentSchema,
 } from "@/lib/validations/comment.validations";
-import { useEffect, useState } from "react";
-import { CommentTargetType, IComment } from "@/types/comment";
+import { useState } from "react";
+import { CommentTargetType } from "@/types/comment";
 import useCommentStore from "@/store/comment.store";
 import {
   useCreateComment,
   useCreateReplyComment,
-  useDeleteComment,
-  useGetComments,
+  useGetInfiniteComments,
 } from "@/components/hooks/api/useComments";
-import { toast } from "sonner";
 import { useQueryClient } from "@tanstack/react-query";
 import { appToast } from "@/lib/app-toast";
 import CommentCardSkeleton from "./CommentCardSkeleton";
 import DeleteCommentModal from "@/components/modals/comments/DeleteCommentModal";
+import { Button } from "@/components/ui/button";
 
 interface CommentSectionProps {
   targetId: string;
@@ -37,16 +36,18 @@ export default function CommentsSection({
   targetType,
   commentsCount,
 }: CommentSectionProps) {
+  const [filter, setFilter] = useState<"newest" | "popular">("newest");
   const queryClient = useQueryClient();
 
-  const getComments = useGetComments(targetId, targetType);
+  const { data, isLoading, isFetchingNextPage, hasNextPage, fetchNextPage } =
+    useGetInfiniteComments({
+      targetId,
+      params: { targetType, sortBy: filter },
+    });
 
-  const comments = getComments.data?.data || [];
-  console.log(comments);
+  // Infinite data formatini (sahifalarni) bitta tekis massivga (arrayga) aylantiramiz
+  const comments = data?.pages.flatMap((page) => page?.comments) || [];
 
-  const createComment = useCreateComment();
-
-  const [filter, setFilter] = useState("newest");
   const {
     activeReplyId,
     setActiveReplyId,
@@ -54,20 +55,18 @@ export default function CommentsSection({
     setMainEditorOpen,
     replyingToCommentId,
   } = useCommentStore();
+
   const createMainComment = useCreateComment();
   const createReplyComment = useCreateReplyComment();
+
   const mainForm = useForm<CommentSchema>({
     resolver: zodResolver(commentSchema),
-    defaultValues: {
-      content: "",
-    },
+    defaultValues: { content: "" },
   });
 
   const replyForm = useForm<CommentSchema>({
     resolver: zodResolver(commentSchema),
-    defaultValues: {
-      content: "",
-    },
+    defaultValues: { content: "" },
   });
 
   const onReplySubmit = (data: CommentSchema) => {
@@ -88,26 +87,19 @@ export default function CommentsSection({
       },
       {
         onSuccess: (res) => {
-          console.log(res);
-
           appToast.success(res.message);
-
           queryClient.invalidateQueries({
             queryKey: ["comments", targetId],
           });
           queryClient.invalidateQueries({
             queryKey: ["replied-comments", activeReplyId],
           });
-
           setActiveReplyId(null);
           replyForm.reset();
         },
         onError: (error: any) => {
           const message = error.message || "Kutilmagan xatolik yuz berdi";
-
           appToast.error(message);
-
-          console.error("[CreateComment Error]:", error);
         },
       },
     );
@@ -132,8 +124,6 @@ export default function CommentsSection({
           const message = error.message || "Kutilmagan xatolik yuz berdi";
 
           appToast.error(message);
-
-          console.error("[CreateComment Error]:", error);
         },
       },
     );
@@ -148,19 +138,23 @@ export default function CommentsSection({
           className="flex flex-col gap-4"
         >
           <CommentInput
-            disabled={createComment.isPending}
+            disabled={createMainComment.isPending}
             formId="main-comment"
             editorActive={mainEditorOpen}
             setEditorActive={setMainEditorOpen}
           />
 
-          <Tabs value={filter} onValueChange={setFilter} className="w-[400px]">
+          <Tabs
+            value={filter}
+            onValueChange={(value) => setFilter(value as "newest" | "popular")}
+            className="w-[400px]"
+          >
             <TabsList className="blur-card">
               <TabsTrigger className="min-w-[70px]" value="newest">
                 Yangi
               </TabsTrigger>
-              <TabsTrigger className="min-w-[70px]" value="interesting">
-                Qiziq
+              <TabsTrigger className="min-w-[70px]" value="popular">
+                Mashhur
               </TabsTrigger>
             </TabsList>
           </Tabs>
@@ -168,25 +162,39 @@ export default function CommentsSection({
       </FormProvider>
 
       <FormProvider {...replyForm}>
-        {getComments.isLoading ? (
+        {isLoading ? (
           <>
-            {Array.from({
-              length:
-                commentsCount <= limitComments ? commentsCount : limitComments,
-            }).map((_, i) => (
-              <CommentCardSkeleton key={i} />
-            ))}
+            {Array.from({ length: Math.min(commentsCount, limitComments) }).map(
+              (_, i) => (
+                <CommentCardSkeleton key={i} />
+              ),
+            )}
           </>
         ) : (
-          comments.map((c) => (
-            <CommentCard
-              onReplySubmit={onReplySubmit}
-              key={c._id}
-              comment={c}
-            />
-          ))
+          <div className="flex flex-col gap-4">
+            {comments.map((c: any) => (
+              <CommentCard
+                onReplySubmit={onReplySubmit}
+                key={c._id}
+                comment={c}
+              />
+            ))}
+          </div>
         )}
       </FormProvider>
+
+      {hasNextPage && (
+        <div className="flex justify-center mt-4">
+          <Button
+            variant="outline"
+            onClick={() => fetchNextPage()}
+            disabled={isFetchingNextPage}
+            className="w-full max-w-[200px]"
+          >
+            {isFetchingNextPage ? "Yuklanmoqda..." : "Ko'proq ko'rish"}
+          </Button>
+        </div>
+      )}
 
       <DeleteCommentModal targetId={targetId} />
     </div>

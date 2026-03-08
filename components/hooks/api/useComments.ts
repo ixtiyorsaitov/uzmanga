@@ -1,34 +1,55 @@
+import api from "@/lib/axios";
 import { cacheStaleTimesInMilliseconds } from "@/lib/constants";
 import commentService from "@/services/comment.service";
 import {
   CommentTargetType,
   CreateCommentArgs,
   CreateReplyCommentArgs,
+  GetCommentsArgs,
   GetRepliedCommentsArgs,
   ReactCommentArgs,
   UpdateCommentArgs,
 } from "@/types/comment";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useMutation, useQuery } from "@tanstack/react-query";
 
-export const useGetComments = (
-  targetId: string,
-  targetType: CommentTargetType,
-) => {
-  return useQuery({
-    queryKey: ["comments", targetId],
-    queryFn: async () =>
-      commentService.getComments({ targetId, params: { targetType } }),
-    enabled: !!targetId,
-    staleTime: cacheStaleTimesInMilliseconds.minute * 5,
+export const useGetInfiniteComments = ({
+  targetId,
+  params,
+}: GetCommentsArgs) => {
+  return useInfiniteQuery({
+    queryKey: ["comments", targetId, params.targetType, params.sortBy],
+    queryFn: async ({ pageParam = 1 }) => {
+      const res = await commentService.getComments({
+        targetId,
+        params: { ...params, page: pageParam, limit: 4 },
+      });
+      return res.data;
+    },
+    getNextPageParam: (lastPage) => {
+      return lastPage?.hasNextPage ? lastPage.nextPage : undefined;
+    },
+    initialPageParam: 1,
   });
 };
 
-export const useGetRepliedComments = (args: GetRepliedCommentsArgs) => {
-  return useQuery({
-    queryKey: ["replied-comments", args.parentId],
-    queryFn: async () => commentService.getRepliedComments(args),
-    enabled: !!args.parentId,
-    staleTime: cacheStaleTimesInMilliseconds.minute * 5,
+export const useGetInfiniteRepliedComments = ({
+  targetId,
+  parentId,
+  params,
+}: any) => {
+  return useInfiniteQuery({
+    queryKey: ["replied-comments", targetId, parentId, params.targetType],
+    queryFn: async ({ pageParam = 1 }) => {
+      const res = await api.get(`/comments/${targetId}/${parentId}/replies`, {
+        params: { ...params, page: pageParam, limit: 5 },
+      });
+      return res.data.data;
+    },
+    getNextPageParam: (lastPage) => {
+      return lastPage?.hasNextPage ? lastPage.nextPage : undefined;
+    },
+    initialPageParam: 1,
+    enabled: !!parentId,
   });
 };
 

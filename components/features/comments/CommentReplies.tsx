@@ -2,9 +2,9 @@
 
 import { useState } from "react";
 import { Separator } from "@/components/ui/separator";
-import { useGetRepliedComments } from "@/components/hooks/api/useComments";
+import { useGetInfiniteRepliedComments } from "@/components/hooks/api/useComments";
 import CommentCardSkeleton from "./CommentCardSkeleton";
-import CommentCard from "./CommentCard"; // Aylanma (circular) import bo'ladi, bu React'da normal
+import CommentCard from "./CommentCard";
 import { IComment } from "@/types/comment";
 import { CommentSchema } from "@/lib/validations/comment.validations";
 
@@ -23,12 +23,15 @@ export default function CommentReplies({
 }: CommentRepliesProps) {
   const [showReplies, setShowReplies] = useState(false);
 
-  const { data: repliedComments, isLoading: repliedCommentsLoading } =
-    useGetRepliedComments({
-      parentId: (showReplies ? comment._id : null)!,
+  const { data, isLoading, isFetchingNextPage, hasNextPage, fetchNextPage } =
+    useGetInfiniteRepliedComments({
+      parentId: showReplies ? comment._id : null,
       targetId: comment.targetId,
       params: { targetType: comment.targetType },
     });
+
+  const repliedComments =
+    data?.pages.flatMap((page: any) => page.comments) || [];
 
   const handleShowReplies = () => {
     setShowReplies((prev) => !prev);
@@ -53,27 +56,42 @@ export default function CommentReplies({
       {/* Replies List */}
       {showReplies && (
         <div className="space-y-2 mt-2">
-          {repliedCommentsLoading ? (
+          {isLoading ? (
             <>
               {Array.from({
-                length:
-                  comment.stats.replies <= limitReplies
-                    ? comment.stats.replies
-                    : limitReplies,
+                length: Math.min(comment.stats.replies, limitReplies),
               }).map((_, i) => (
                 <CommentCardSkeleton isRepliedComment key={i} />
               ))}
             </>
           ) : (
-            (repliedComments as { data: IComment[] })?.data?.map((c) => (
-              <CommentCard
-                key={c._id}
-                rootId={rootId || comment._id} // Root ID ni uzatish
-                comment={c}
-                isRepliedComment
-                onReplySubmit={onReplySubmit}
-              />
-            ))
+            <div className="flex flex-col gap-2">
+              {repliedComments.map((c: any) => (
+                <CommentCard
+                  key={c._id}
+                  rootId={rootId || comment._id}
+                  comment={c}
+                  isRepliedComment
+                  onReplySubmit={onReplySubmit}
+                />
+              ))}
+            </div>
+          )}
+
+          {hasNextPage && (
+            <div className="flex items-center gap-2 mt-2">
+              <Separator className="w-[30px]!" />
+              <button
+                type="button"
+                onClick={() => fetchNextPage()}
+                disabled={isFetchingNextPage}
+                className="text-sm text-primary font-bold hover:underline underline-offset-2 cursor-pointer"
+              >
+                {isFetchingNextPage
+                  ? "Yuklanmoqda..."
+                  : "Yana javoblarni ko'rish"}
+              </button>
+            </div>
           )}
         </div>
       )}

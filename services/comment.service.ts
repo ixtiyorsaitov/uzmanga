@@ -15,7 +15,13 @@ class CommentService {
   getComments = async ({
     targetId,
     params,
-  }: GetCommentsArgs): Promise<ApiResponse<IComment[]>> => {
+  }: GetCommentsArgs): Promise<
+    ApiResponse<{
+      comments: IComment[];
+      hasNextPage: boolean;
+      nextPage: number | null;
+    }>
+  > => {
     const res = await api.get(`/comments/${targetId}`, { params });
     return res.data;
   };

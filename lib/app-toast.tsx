@@ -15,7 +15,7 @@ export const appToast = {
   error: (message: string, options = {}) =>
     toast.error(message, {
       className: cn(
-        "dark:bg-destructive-900! bg-destructive-500! text-white!",
+        "dark:bg-destructive! bg-destructive! text-white!",
         requiredStyle,
       ),
       ...options,

@@ -33,7 +33,7 @@ export default function CommentContent({
       <div
         ref={textRef}
         className={cn(
-          "text-sm leading-relaxed text-muted-foreground prose prose-invert prose-sm max-w-none wrap-break-word",
+          "text-sm leading-relaxed text-muted-foreground prose prose-invert prose-sm max-w-none overflow-hidden [overflow-wrap:anywhere]",
           !isExpanded && "line-clamp-3",
         )}
       >

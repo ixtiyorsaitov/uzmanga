@@ -31,11 +31,13 @@ export enum CommentTargetType {
 export interface CommentsQueryParams {
   targetType: CommentTargetType;
   parentId?: string | null;
+  page?: number;
+  limit?: number;
 }
 
 export interface GetCommentsArgs {
   targetId: string;
-  params: CommentsQueryParams;
+  params: CommentsQueryParams & { sortBy?: "newest" | "popular" };
 }
 
 export interface GetRepliedCommentsArgs extends GetCommentsArgs {
