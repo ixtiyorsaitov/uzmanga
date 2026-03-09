@@ -1,4 +1,4 @@
-import AddMangaClient from "@/components/modals/manga/AddMangaClient";
+import AddMangaClient from "@/components/pages/manga-add/AddMangaClient";
 
 export default function AddMangaPage() {
   return <AddMangaClient />;

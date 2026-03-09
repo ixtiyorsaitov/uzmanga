@@ -36,13 +36,13 @@ const ForgotPassword = ({
     mutation.mutate(data, {
       onSuccess: (res) => {
         console.log(res);
-        if (res.success) {
-          setEmailSent(true);
-          appToast.success("Xat yuborildi");
-          authModal.setOpen(false);
-        } else {
-          appToast.error(res.error || "Xat yuborilmadi");
-        }
+        setEmailSent(true);
+        appToast.success(res.message || "Xat yuborildi");
+        authModal.setOpen(false);
+      },
+      onError: (error: any) => {
+        const msg = error.response?.data?.message || "Xat yuborilmadi";
+        appToast.error(msg);
       },
     });
   };

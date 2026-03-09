@@ -33,11 +33,11 @@ const Login = ({
     mutation.mutate(data, {
       onSuccess: (res) => {
         console.log(res);
-        if (res.success) {
-          appToast.success("Hisobga kirildi");
-        } else {
-          appToast.error(res.error || "Hisobga kirilmadi");
-        }
+        appToast.success(res.message || "Hisobga kirildi");
+      },
+      onError: (error: any) => {
+        const msg = error.response?.data?.message || "Hisobga kirilmadi";
+        appToast.error(msg);
       },
     });
   };

@@ -1,12 +1,12 @@
 "use client";
 
 import ImageIcon from "@/components/icons/image.icon";
+import SelectCoverImageModal from "@/components/modals/manga/select.cover.image.modal";
 import DefaultCard from "@/components/pages/manga-add/DefaultCard";
 import { Button } from "@/components/ui/button";
 import useSelectCoverImageStore from "@/store/useSelectCoverImageStore";
 import Image from "next/image";
 import React from "react";
-import SelectCoverImageModal from "./select.cover.image.modal";
 
 const UploadCover = () => {
   const { setOpen, coverPreview, removeCover, coverError } =

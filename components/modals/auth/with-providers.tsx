@@ -5,7 +5,7 @@ import { IAuthProviders } from "@/types";
 import { appToast } from "@/lib/app-toast";
 import { usePathname } from "next/navigation";
 
-const WithProviders = ({ disabled }: { disabled: boolean }) => {
+const WithProviders = ({ disabled = false }: { disabled?: boolean }) => {
   const withGoogle = useLoginWithGoogle();
   const path = usePathname();
 

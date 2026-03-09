@@ -41,7 +41,7 @@ export default function MangaCard({ manga, auto = false }: AnimeCardProps) {
 
         <div className="mt-2">
           <p className="text-[11px] text-muted-foreground font-medium tracking-wider">
-            {manga.type} • {manga.releaseYear}
+            {manga.type.name} • {manga.releaseYear}
           </p>
           <h3 className="text-sm font-semibold text-foreground line-clamp-2 leading-tight group-hover:text-primary transition-colors">
             {manga.title}

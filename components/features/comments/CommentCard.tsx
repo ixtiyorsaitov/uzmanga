@@ -30,7 +30,7 @@ interface CommentProps {
   comment: IComment;
   isRepliedComment?: boolean;
   rootId?: string;
-  onReplySubmit: (data: CommentSchema) => void;
+  onReplySubmit?: (data: CommentSchema) => void;
 }
 
 const CommentCard = ({
@@ -159,7 +159,7 @@ const CommentCard = ({
           <div className="mt-4">
             <form
               id="reply-comment"
-              onSubmit={replyForm.handleSubmit(onReplySubmit)}
+              onSubmit={replyForm.handleSubmit(onReplySubmit!)}
             >
               <CommentInput
                 formId="reply-comment"
@@ -174,7 +174,7 @@ const CommentCard = ({
 
         {!isRepliedComment && (
           <CommentReplies
-            onReplySubmit={onReplySubmit}
+            onReplySubmit={onReplySubmit!}
             comment={comment}
             rootId={rootId}
           />

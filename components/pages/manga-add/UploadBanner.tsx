@@ -6,7 +6,7 @@ import DefaultCard from "@/components/pages/manga-add/DefaultCard";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import ImageIcon from "@/components/icons/image.icon";
-import SelectBannerImageModal from "./select.banner.image.modal";
+import SelectBannerImageModal from "@/components/modals/manga/select.banner.image.modal";
 
 export default function UploadBanner() {
   const { setOpen, bannerPreview, removeBanner, bannerError } =
