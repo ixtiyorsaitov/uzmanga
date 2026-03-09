@@ -1,3 +1,4 @@
+import BookmarkButton from "@/components/features/bookmark/BookmarkButton";
 import { AlertIcon } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import { IManga } from "@/types/manga";
@@ -22,9 +23,9 @@ const AsideLayout = ({ manga }: { manga: IManga }) => {
         {/* Action Buttons */}
         <div className="flex flex-col gap-2">
           <Button className="h-12 text-md font-semibold">{"O'qish"}</Button>
-          <Button>Xatcho'pga</Button>
+          <BookmarkButton mangaId={manga._id} />
           <Button variant={"outline"}>
-            Xatcho'pga
+            Shikoyat qilish
             <AlertIcon />
           </Button>
         </div>

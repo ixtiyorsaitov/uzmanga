@@ -10,6 +10,8 @@ import { IManga } from "@/types/manga";
 import Link from "next/link";
 
 const MainLayout = ({ manga }: { manga: IManga }) => {
+  console.log(manga);
+
   return (
     <div className="flex items-center justify-between">
       <div className="space-y-2">
@@ -18,7 +20,7 @@ const MainLayout = ({ manga }: { manga: IManga }) => {
             className="hoverLink flex items-center gap-px"
             href={`/mangas?types=${manga.type}`}
           >
-            {manga.type}
+            {manga.type.name}
             <ArrowTopRightIcon className="w-3 h-3" />
           </Link>
           <span>•</span>
@@ -38,11 +40,11 @@ const MainLayout = ({ manga }: { manga: IManga }) => {
           </Button>
           <Button className="bg-transparent h-7! text-foreground! font-light dark:font-normal">
             <EyeIcon />
-            Ko'rishlar: 2M
+            Ko'rishlar: {manga.stats.views}
           </Button>
           <Button className="bg-transparent h-7! text-foreground! font-light dark:font-normal">
             <BookmarkIcon />
-            Xatcho'plar: 37K
+            Xatcho'plar: {manga.stats.bookmarks}
           </Button>
         </div>
       </div>

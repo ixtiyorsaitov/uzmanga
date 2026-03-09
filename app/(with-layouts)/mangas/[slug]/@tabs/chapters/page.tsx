@@ -28,7 +28,6 @@ const ChaptersPage = async ({
       ordering,
     },
   );
-  console.log(chaptersResponse);
 
   if (!chaptersResponse.success || !chaptersResponse.data) return;
 

@@ -2,22 +2,26 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import api from "@/lib/axios";
 import { usePathname, useRouter } from "next/navigation";
+import { IUser } from "@/types/user";
 
-const AuthContext = createContext<any>(undefined);
+interface AuthContextType {
+  user: IUser | null;
+  loading: boolean;
+  logout: () => Promise<void>;
+}
+const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-export const AuthProvider = ({
-  children,
-  initialUser, // Serverdan kelgan tayyor user
-}: {
+interface AuthProviderProps {
   children: React.ReactNode;
-  initialUser: any;
-}) => {
-  const [user, setUser] = useState(initialUser);
-  const [loading, setLoading] = useState(!initialUser);
+  initialUser: IUser | null;
+}
+
+export const AuthProvider = ({ children, initialUser }: AuthProviderProps) => {
+  const [user, setUser] = useState<IUser | null>(initialUser);
+  const [loading, setLoading] = useState<boolean>(!initialUser);
   const pathname = usePathname();
   const router = useRouter();
 
-  // Faqat user yo'q bo'lsa (client-side'da refresh qilinganda) ishlaydi
   useEffect(() => {
     if (!initialUser) {
       api
@@ -28,7 +32,6 @@ export const AuthProvider = ({
     }
   }, [initialUser]);
 
-  // Redirect Guard (Faqat himoyalangan sahifalar uchun)
   useEffect(() => {
     const protectedRoutes = ["/profile", "/dashboard", "/manga/create"];
     if (
@@ -53,4 +56,12 @@ export const AuthProvider = ({
   );
 };
 
-export const useAuth = () => useContext(AuthContext);
+export const useAuth = () => {
+  const context = useContext(AuthContext);
+
+  if (context === undefined) {
+    throw new Error("useAuth must be used within an AuthProvider");
+  }
+
+  return context;
+};

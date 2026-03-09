@@ -3,6 +3,7 @@ import { IAgeRating } from "./age.rating";
 import { ICategory } from "./category";
 import { IGenre } from "./genre";
 import { IMangaStatus } from "./manga.status";
+import { IMangaType } from "./manga.type";
 import { ITranslationStatus } from "./translation.status";
 import { IUser } from "./user";
 
@@ -12,7 +13,7 @@ export interface IManga {
     cover: IMedia;
     banner: IMedia;
   };
-  type: string;
+  type: IMangaType;
   rating: number;
   releaseYear: number;
   title: string;

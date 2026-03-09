@@ -19,11 +19,12 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
+import { memo, useState } from "react";
 import { useFormContext } from "react-hook-form";
 import { CommentSchema } from "@/lib/validations/comment.validations";
 import UpdateCommentForm from "./UpdateCommentForm";
 import CommentScore from "./CommentScore";
+import { useAuth } from "@/components/contexts/auth.context";
 
 interface CommentProps {
   comment: IComment;
@@ -32,18 +33,20 @@ interface CommentProps {
   onReplySubmit: (data: CommentSchema) => void;
 }
 
-export default function CommentCard({
+const CommentCard = ({
   comment,
   isRepliedComment,
   rootId,
   onReplySubmit,
-}: CommentProps) {
+}: CommentProps) => {
   const {
     activeReplyId,
     setActiveReplyId,
     replyingToCommentId,
     setCommentToDelete,
   } = useCommentStore();
+
+  const { user } = useAuth();
 
   const replyForm = useFormContext<CommentSchema>();
 
@@ -68,6 +71,7 @@ export default function CommentCard({
     setIsEditing(true);
   };
 
+  const handleReportCLick = () => {};
   return (
     <div
       className={cn(
@@ -100,12 +104,20 @@ export default function CommentCard({
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent>
-                <DropdownMenuItem onClick={handleEditClick}>
-                  Tahrirlash
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={handleDeleteClick}>
-                  O'chirish
-                </DropdownMenuItem>
+                {user?._id === comment.author._id ? (
+                  <>
+                    <DropdownMenuItem onClick={handleEditClick}>
+                      Tahrirlash
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={handleDeleteClick}>
+                      O'chirish
+                    </DropdownMenuItem>
+                  </>
+                ) : (
+                  <DropdownMenuItem onClick={handleReportCLick}>
+                    Shikoyat qilish
+                  </DropdownMenuItem>
+                )}
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
@@ -136,7 +148,11 @@ export default function CommentCard({
             Javob berish
           </button>
 
-          <CommentScore score={comment.stats.score} commentId={comment._id} userReaction={comment.userReaction} />
+          <CommentScore
+            score={comment.stats.score}
+            commentId={comment._id}
+            userReaction={comment.userReaction}
+          />
         </div>
 
         {replyingToCommentId === comment._id && (
@@ -166,4 +182,6 @@ export default function CommentCard({
       </div>
     </div>
   );
-}
+};
+
+export default memo(CommentCard);
