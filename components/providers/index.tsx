@@ -3,6 +3,7 @@ import { Toaster } from "../ui/sonner";
 import QueryProvider from "./query-provider";
 import { ThemeProvider } from "./theme.provider";
 import api from "@/lib/axios";
+import NextTopLoader from "nextjs-toploader";
 
 const Providers = async ({ children }: { children: React.ReactNode }) => {
   let user = null;
@@ -15,17 +16,18 @@ const Providers = async ({ children }: { children: React.ReactNode }) => {
     user = null;
   }
   return (
-    <AuthProvider initialUser={user}>
-      <ThemeProvider
-        attribute="class"
-        defaultTheme="system"
-        enableSystem
-        disableTransitionOnChange
-      >
-        <QueryProvider>{children}</QueryProvider>
+    <ThemeProvider
+      attribute="class"
+      defaultTheme="system"
+      enableSystem
+      disableTransitionOnChange
+    >
+      <QueryProvider>
+        <AuthProvider initialUser={user}>{children}</AuthProvider>
+        <NextTopLoader showSpinner={true} color="#3878df" />
         <Toaster />
-      </ThemeProvider>
-    </AuthProvider>
+      </QueryProvider>
+    </ThemeProvider>
   );
 };
 

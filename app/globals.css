@@ -143,16 +143,6 @@
   .blur-card {
     @apply dark:bg-background/50 dark:backdrop-blur-sm bg-white p-3 rounded-xl;
   }
-
-  body {
-    pointer-events: auto !important;
-    overflow: auto !important;
-  }
-
-  body[data-radix-scroll-locked] {
-    overflow: auto !important;
-    pointer-events: auto !important;
-  }
 }
 
 .ProseMirror:focus {
@@ -163,3 +153,7 @@
 .ProseMirror {
   border: none;
 }
+
+/* html {
+  scrollbar-gutter: stable;
+} */

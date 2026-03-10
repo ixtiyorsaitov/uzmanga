@@ -24,6 +24,7 @@
         "@radix-ui/react-tabs": "^1.1.13",
         "@tanstack/react-query": "^5.90.20",
         "@tiptap/extension-bold": "^3.20.0",
+        "@tiptap/extension-character-count": "^3.20.0",
         "@tiptap/extension-italic": "^3.20.0",
         "@tiptap/extension-strike": "^3.20.0",
         "@tiptap/react": "^3.20.0",
@@ -36,6 +37,7 @@
         "lucide-react": "^0.562.0",
         "next": "16.1.3",
         "next-themes": "^0.4.6",
+        "nextjs-toploader": "^3.9.17",
         "radix-ui": "^1.4.3",
         "react": "19.2.3",
         "react-dom": "19.2.3",
@@ -410,6 +412,8 @@
     "@tiptap/extension-bubble-menu": ["@tiptap/extension-bubble-menu@3.20.0", "", { "dependencies": { "@floating-ui/dom": "^1.0.0" }, "peerDependencies": { "@tiptap/core": "^3.20.0", "@tiptap/pm": "^3.20.0" } }, "sha512-MDosUfs8Tj+nwg8RC+wTMWGkLJORXmbR6YZgbiX4hrc7G90Gopdd6kj6ht5/T8t7dLLaX7N0+DEHdUEPGED7dw=="],
 
     "@tiptap/extension-bullet-list": ["@tiptap/extension-bullet-list@3.20.0", "", { "peerDependencies": { "@tiptap/extension-list": "^3.20.0" } }, "sha512-OcKMeopBbqWzhSi6o8nNz0aayogg1sfOAhto3NxJu3Ya32dwBFqmHXSYM6uW4jOphNvVPyjiq9aNRh3qTdd1dw=="],
+
+    "@tiptap/extension-character-count": ["@tiptap/extension-character-count@3.20.1", "", { "peerDependencies": { "@tiptap/extensions": "^3.20.1" } }, "sha512-XeLCQtZDpp5G5/CJOwk91q2E52DuTcd74gze9WAlpBqsLKyLHO42CVBS1GdfmE5z0WXOGQJ1shS2fFVn+cRdjw=="],
 
     "@tiptap/extension-code": ["@tiptap/extension-code@3.20.0", "", { "peerDependencies": { "@tiptap/core": "^3.20.0" } }, "sha512-TYDWFeSQ9umiyrqsT6VecbuhL8XIHkUhO+gEk0sVvH67ZLwjFDhAIIgWIr1/dbIGPcvMZM19E7xUUhAdIaXaOQ=="],
 
@@ -963,7 +967,11 @@
 
     "next-themes": ["next-themes@0.4.6", "", { "peerDependencies": { "react": "^16.8 || ^17 || ^18 || ^19 || ^19.0.0-rc", "react-dom": "^16.8 || ^17 || ^18 || ^19 || ^19.0.0-rc" } }, "sha512-pZvgD5L0IEvX5/9GWyHMf3m8BKiVQwsCMHfoFosXtXBMnaS0ZnIJ9ST4b4NqLVKDEm8QBxoNNGNaBv2JNF6XNA=="],
 
+    "nextjs-toploader": ["nextjs-toploader@3.9.17", "", { "dependencies": { "nprogress": "^0.2.0", "prop-types": "^15.8.1" }, "peerDependencies": { "next": ">= 6.0.0", "react": ">= 16.0.0", "react-dom": ">= 16.0.0" } }, "sha512-9OF0KSSLtoSAuNg2LZ3aTl4hR9mBDj5L9s9DZiFCbMlXehyICGjkIz5dVGzuATU2bheJZoBdFgq9w07AKSuQQw=="],
+
     "node-releases": ["node-releases@2.0.27", "", {}, "sha512-nmh3lCkYZ3grZvqcCH+fjmQ7X+H0OeZgP40OierEaAptX4XofMh5kwNbWh7lBduUzCcV/8kZ+NDLCwm2iorIlA=="],
+
+    "nprogress": ["nprogress@0.2.0", "", {}, "sha512-I19aIingLgR1fmhftnbWWO3dXc0hSxqHQHQb3H8m+K3TnEn/iSeTZZOyvKXWqQESMwuUVnatlCnZdLBZZt2VSA=="],
 
     "object-assign": ["object-assign@4.1.1", "", {}, "sha512-rJgTQnkUnH1sFw8yT6VSU3zD3sWmu6sZhIseY8VX+GRu3P6F7Fu+JNDoXfklElbLJSnc3FUQHVe4cU5hj+BcUg=="],
 
