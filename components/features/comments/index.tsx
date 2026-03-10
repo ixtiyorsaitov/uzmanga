@@ -114,7 +114,6 @@ export default function CommentsSection({
       },
       {
         onSuccess: (res) => {
-          console.log(res);
           queryClient.invalidateQueries({ queryKey: ["comments", targetId] });
           appToast.success(res.message);
           setMainEditorOpen(false);

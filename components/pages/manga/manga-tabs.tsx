@@ -18,7 +18,7 @@ export const MangaTabs = ({ slug }: { slug: string }) => {
   ];
 
   return (
-    <div className="flex p-1 blur-card rounded-full w-fit space-x-2 mt-6">
+    <div className="flex p-1 blur-card rounded-full w-fit gap-2 mt-6">
       {tabs.map((tab) => {
         const isActive = pathname.includes(tab.href);
 
@@ -31,6 +31,7 @@ export const MangaTabs = ({ slug }: { slug: string }) => {
               isActive
                 ? "bg-primary text-primary-foreground shadow-sm"
                 : "text-muted-foreground hover:text-foreground hover:bg-accent",
+              tab.id === "comments" && "md:hidden",
             )}
           >
             {tab.name}

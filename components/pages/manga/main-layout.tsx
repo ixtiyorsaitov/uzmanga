@@ -10,8 +10,6 @@ import { IManga } from "@/types/manga";
 import Link from "next/link";
 
 const MainLayout = ({ manga }: { manga: IManga }) => {
-  console.log(manga);
-
   return (
     <div className="flex items-center justify-between">
       <div className="space-y-2">

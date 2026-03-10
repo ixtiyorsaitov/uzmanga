@@ -6,7 +6,7 @@ import Image from "next/image";
 
 const AsideLayout = ({ manga }: { manga: IManga }) => {
   return (
-    <aside className="w-full md:w-[241px] flex-none md:sticky top-24 z-10">
+    <aside className="w-[320px] md:w-[241px] flex-none md:sticky top-24 z-10">
       <div className="flex flex-col gap-4">
         {/* Poster Image */}
         <div className="relative w-full aspect-241/360 rounded-xl overflow-hidden shadow-xl border border-border">

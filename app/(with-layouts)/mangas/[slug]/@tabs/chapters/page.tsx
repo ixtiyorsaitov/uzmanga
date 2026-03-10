@@ -34,7 +34,7 @@ const ChaptersPage = async ({
   const chapters = chaptersResponse.data.chapters;
 
   return (
-    <div>
+    <div className="w-full">
       <FilterChapters ordering={ordering} search={search} />
       <div className="grid">
         {chapters.length > 0 ? (

@@ -36,11 +36,11 @@ const MangaPageLayout = async ({ children, params, tabs }: Props) => {
 
         <div className="absolute inset-0 bg-linear-to-t from-background via-background/60 to-transparent" />
       </div>
-      <div className="flex flex-col md:flex-row gap-8 px-10 mt-10 relative items-start">
+      <div className="flex flex-col md:flex-row gap-8 mt-10 relative md:items-start items-center">
         <AsideLayout manga={manga} />
 
-        <main className="flex-1 min-w-0">
-          <div>
+        <main className="flex-1 min-w-0 w-full">
+          <div className="w-full">
             <MainLayout manga={manga} />
 
             <MangaTabs slug={slug} />
