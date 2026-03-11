@@ -2,7 +2,7 @@
 
 import React from "react";
 import useSelectBannerImageStore from "@/store/useSelectBannerImageStore";
-import DefaultCard from "@/components/pages/manga-add/DefaultCard";
+import DefaultCard from "@/components/pages/manga-actions/DefaultCard";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import ImageIcon from "@/components/icons/image.icon";

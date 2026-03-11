@@ -2,7 +2,7 @@
 
 import ImageIcon from "@/components/icons/image.icon";
 import SelectCoverImageModal from "@/components/modals/manga/select.cover.image.modal";
-import DefaultCard from "@/components/pages/manga-add/DefaultCard";
+import DefaultCard from "@/components/pages/manga-actions/DefaultCard";
 import { Button } from "@/components/ui/button";
 import useSelectCoverImageStore from "@/store/useSelectCoverImageStore";
 import Image from "next/image";

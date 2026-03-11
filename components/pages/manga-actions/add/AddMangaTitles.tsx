@@ -1,7 +1,7 @@
 "use client";
 
-import DefaultCard from "@/components/pages/manga-add/DefaultCard";
-import UploadCover from "./UploadCover";
+import DefaultCard from "@/components/pages/manga-actions/DefaultCard";
+import UploadCover from "../UploadCover";
 import { Input } from "@/components/ui/input";
 import {
   Field,
@@ -13,11 +13,11 @@ import { Controller, useFormContext } from "react-hook-form";
 import { MangaSchema } from "@/lib/validations/manga.validations";
 import Categories from "./Categories";
 import Genres from "./Genres";
-import TranslationStatus from "./TranslationStatus";
-import MangaStatus from "./MangaStatus";
-import ReleaseYear from "./ReleaseYear";
-import AgeRating from "./AgeRating";
-import MangaType from "./MangaType";
+import TranslationStatus from "../TranslationStatus";
+import MangaStatus from "../MangaStatus";
+import ReleaseYear from "../ReleaseYear";
+import AgeRating from "../AgeRating";
+import MangaType from "../MangaType";
 
 const AddMangaFields = () => {
   const { control } = useFormContext<MangaSchema>();

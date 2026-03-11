@@ -1,14 +1,14 @@
 "use client";
 
 import Wrapper from "@/components/layout/wrapper";
-import UploadBanner from "./UploadBanner";
+import UploadBanner from "../UploadBanner";
 import { useForm, FormProvider } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { mangaSchema, MangaSchema } from "@/lib/validations/manga.validations";
-import Description from "./Description";
-import MangaTags from "./MangaTags";
+import Description from "../Description";
+import MangaTags from "../MangaTags";
 import { Button } from "@/components/ui/button";
-import MessageToModerator from "./MessageToModerator";
+import MessageToModerator from "../MessageToModerator";
 import useSelectBannerImageStore from "@/store/useSelectBannerImageStore";
 import useSelectCoverImageStore from "@/store/useSelectCoverImageStore";
 import AddMangaFields from "./AddMangaTitles";
