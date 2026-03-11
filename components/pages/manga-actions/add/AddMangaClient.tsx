@@ -96,7 +96,7 @@ export default function AddMangaClient() {
   // }, [bannerFile]);
 
   return (
-    <Wrapper className="mt-5" contentClassName="flex flex-col gap-4">
+    <Wrapper contentClassName="flex flex-col gap-4 mt-5">
       <FormProvider {...form}>
         <form
           id="create-manga"

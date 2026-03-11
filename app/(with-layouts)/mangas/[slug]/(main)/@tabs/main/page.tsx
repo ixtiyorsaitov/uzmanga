@@ -57,7 +57,7 @@ export default async function MainTabPage({
         </div>
         <MangaDetailedInfo manga={manga} />
 
-        <div className="hidden md:flex">
+        <div className="hidden md:flex w-full">
           <CommentsSection
             targetId={manga._id}
             targetType={CommentTargetType.MANGA}

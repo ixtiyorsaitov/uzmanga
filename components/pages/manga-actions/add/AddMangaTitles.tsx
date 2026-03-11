@@ -11,8 +11,8 @@ import {
 } from "@/components/ui/field";
 import { Controller, useFormContext } from "react-hook-form";
 import { MangaSchema } from "@/lib/validations/manga.validations";
-import Categories from "./Categories";
-import Genres from "./Genres";
+import Categories from "../Categories";
+import Genres from "../Genres";
 import TranslationStatus from "../TranslationStatus";
 import MangaStatus from "../MangaStatus";
 import ReleaseYear from "../ReleaseYear";

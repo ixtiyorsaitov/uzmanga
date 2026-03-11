@@ -129,7 +129,7 @@ export default function CommentsSection({
   };
 
   return (
-    <div className="mx-auto flex flex-col gap-6">
+    <div className="mx-auto flex flex-col gap-6 w-full">
       <FormProvider {...mainForm}>
         <form
           id="main-comment"
