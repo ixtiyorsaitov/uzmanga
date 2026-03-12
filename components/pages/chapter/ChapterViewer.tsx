@@ -1,64 +1,80 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { IMedia } from "@/types";
 import { IManga } from "@/types/manga";
 import ChapterImage from "./ChapterImage";
 import ChapterNavbar from "./ChapterNavbar";
 import SmartSidePanel from "./SmartSidePanel";
-import { IChapterPage } from "@/types/chapter";
+import { IChapter, IChapterPage } from "@/types/chapter";
+import CommentsSection from "@/components/features/comments";
+import { CommentTargetType } from "@/types/comment";
+import ChapterBottomButtons from "./ChapterBottomButtons";
 
 interface ChapterViewerProps {
-  images: IChapterPage[];
+  chapter: IChapter;
   manga: IManga;
 }
 
-export const ChapterViewer = ({ images, manga }: ChapterViewerProps) => {
-  const [isVisible, setIsVisible] = useState(false);
-  const [lastScrollY, setLastScrollY] = useState(0);
+export const ChapterViewer = ({ chapter, manga }: ChapterViewerProps) => {
+  const images = chapter.pages;
+
+  const [isVisible, setIsVisible] = useState(true);
+
+  const lastScrollY = useRef(0);
 
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
 
-      if (currentScrollY > 0) {
-        if (currentScrollY > lastScrollY) {
-          setIsVisible(false);
-        } else {
-          setIsVisible(true);
+      setIsVisible((prevIsVisible) => {
+        if (currentScrollY > 0) {
+          if (currentScrollY > lastScrollY.current) {
+            return prevIsVisible ? false : prevIsVisible;
+          } else {
+            return !prevIsVisible ? true : prevIsVisible;
+          }
         }
-      } else {
-        setIsVisible(true);
-      }
-      setLastScrollY(currentScrollY);
+        return true;
+      });
+
+      lastScrollY.current = currentScrollY;
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [lastScrollY]);
+  }, []);
 
   return (
     <div className="relative flex flex-col items-center w-full min-h-screen bg-background">
+      {/* Bu ikkisi isVisible o'zgargandagina render bo'ladi */}
       <ChapterNavbar isVisible={isVisible} manga={manga} />
-
       <SmartSidePanel isVisible={isVisible} />
 
-      <main className="w-full max-w-[900px] mx-auto pt-4 flex flex-col items-center">
-        {images.map((img, index) => (
-          <>
+      <div className="max-w-[900px] w-full">
+        <main className="w-full mx-auto pt-4 flex flex-col items-center">
+          {images.map((img, index) => (
             <ChapterImage
               key={img.media._id || index}
               url={img.media.url}
               index={index}
             />
-            <div className="text-center text-muted-foreground text-sm">
-              {img.pageNumber} - sahifa
-            </div>
-          </>
-        ))}
-      </main>
+          ))}
+        </main>
 
-      <div className="py-20 text-muted-foreground text-sm">Bob tugadi</div>
+        <div className="w-full mt-20 space-y-20">
+          <ChapterBottomButtons
+            likesCount={chapter.stats.score}
+            isLiked={chapter.isLiked}
+            chapterId={chapter._id}
+          />
+          <CommentsSection
+            targetId={chapter._id}
+            targetType={CommentTargetType.CHAPTER}
+            commentsCount={chapter.stats.comments}
+          />
+        </div>
+      </div>
     </div>
   );
 };

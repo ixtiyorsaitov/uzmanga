@@ -17,12 +17,22 @@ import { appToast } from "@/lib/app-toast";
 import { bookmarkMenuItems } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 import { BOOKMARK_STATUS } from "@/types/bookmark";
+import { useAuth } from "@/components/contexts/auth.context";
 
-export default function BookmarkButton({ mangaId }: { mangaId: string }) {
+export default function BookmarkButton({
+  mangaId,
+  ...props
+}: {
+  mangaId: string;
+  props?: React.ComponentProps<typeof Button>;
+}) {
   const queryClient = useQueryClient();
+
+  const { user } = useAuth();
 
   const { data: isBookmarkedData, isLoading } = useCheckIsBookmarked({
     mangaId,
+    enabled: !!user,
   });
   const isBookmarked = isBookmarkedData?.data;
 
@@ -67,7 +77,7 @@ export default function BookmarkButton({ mangaId }: { mangaId: string }) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button className="w-full" disabled={loading}>
+        <Button {...props} disabled={loading}>
           {isBookmarked ? currentLabel : "Xatcho'pga qo'shish"}
         </Button>
       </DropdownMenuTrigger>

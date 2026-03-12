@@ -29,6 +29,16 @@ class ChapterService {
     });
     return res.data;
   }
+
+  async toggleReaction(chapterId: string): Promise<ApiResponse<{score: number; isLiked: boolean}>> {
+    const res = await api.post(`/chapters/react/${chapterId}`);
+    return res.data;
+  }
+
+  async checkReaction(chapterId: string): Promise<ApiResponse<boolean>> {
+    const res = await api.get(`/chapters/react/${chapterId}/check`);
+    return res.data;
+  }
 }
 
 export default new ChapterService();

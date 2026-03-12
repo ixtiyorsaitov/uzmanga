@@ -78,7 +78,9 @@ const ChaptersPage = async ({
                   </p>
                   <div>
                     <h2 className="text-sm">
-                      {chapter.title ?? `Bob ${chapter.chapterNumber}`}
+                      {chapter.title?.trim() !== ""
+                        ? chapter.title
+                        : `Bob ${chapter.chapterNumber}`}
                     </h2>
                     <p className="text-xs text-muted-foreground">
                       {chapter.createdBy.name}

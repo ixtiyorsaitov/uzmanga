@@ -1,3 +1,4 @@
+import BookmarkButton from "@/components/features/bookmark/BookmarkButton";
 import { BellIcon, BookmarkIcon } from "@/components/icons";
 import Wrapper from "@/components/layout/wrapper";
 import Logo from "@/components/shared/logo";
@@ -56,7 +57,7 @@ export default function ChapterNavbar({
             </Link>
           </div>
           <div className="flex items-center gap-2">
-            <Button>Xatcho'pga</Button>
+            <BookmarkButton mangaId={manga._id} />
             <Button size={"icon"} variant={"secondary"}>
               <BookmarkIcon className="size-5" />
             </Button>

@@ -25,7 +25,12 @@ const ChapterPage = async ({
     );
   }
 
-  return <ChapterViewer images={chapter.pages} manga={chapter.manga} />;
+  return (
+    <ChapterViewer
+      chapter={chapter}
+      manga={chapter.manga}
+    />
+  );
 };
 
 export default ChapterPage;

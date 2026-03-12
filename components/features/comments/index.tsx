@@ -9,7 +9,7 @@ import {
   CommentSchema,
   commentSchema,
 } from "@/lib/validations/comment.validations";
-import { useState } from "react";
+import { memo, useState } from "react";
 import { CommentTargetType } from "@/types/comment";
 import useCommentStore from "@/store/comment.store";
 import {
@@ -31,11 +31,11 @@ interface CommentSectionProps {
 
 const limitComments = 10;
 
-export default function CommentsSection({
+const CommentsSection = ({
   targetId,
   targetType,
   commentsCount,
-}: CommentSectionProps) {
+}: CommentSectionProps) => {
   const [filter, setFilter] = useState<"newest" | "popular">("newest");
   const queryClient = useQueryClient();
 
@@ -198,4 +198,6 @@ export default function CommentsSection({
       <DeleteCommentModal targetId={targetId} />
     </div>
   );
-}
+};
+
+export default memo(CommentsSection);

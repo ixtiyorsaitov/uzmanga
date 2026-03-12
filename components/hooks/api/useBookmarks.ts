@@ -8,11 +8,18 @@ export const useToggleBookmark = () => {
   });
 };
 
-export const useCheckIsBookmarked = ({ mangaId }: { mangaId: string }) => {
+export const useCheckIsBookmarked = ({
+  mangaId,
+  enabled,
+}: {
+  mangaId: string;
+  enabled: boolean;
+}) => {
   return useQuery({
     queryKey: ["bookmark", mangaId],
     queryFn: () => BookmarkService.checkIsBookmarked({ mangaId }),
     staleTime: cacheStaleTimesInMilliseconds.minute,
+    enabled,
   });
 };
 

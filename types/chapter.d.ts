@@ -12,8 +12,14 @@ export interface IChapter {
   pages: IChapterPage[];
   disableComments: boolean;
   chapterNumber: number;
+  stats: {
+    comments: number;
+    views: number;
+    score: number;
+  };
   createdBy: IUser;
   publishedAt: Date;
+  isLiked: boolean;
   updatedAt: Date;
   createdAt: Date;
 }
