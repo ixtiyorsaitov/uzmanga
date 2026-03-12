@@ -6,16 +6,20 @@ import DefaultCard from "@/components/pages/manga-actions/DefaultCard";
 import { Button } from "@/components/ui/button";
 import useSelectCoverImageStore from "@/store/useSelectCoverImageStore";
 import Image from "next/image";
-import React from "react";
+import React, { useEffect } from "react";
 
 const UploadCover = () => {
-  const { setOpen, coverPreview, removeCover, coverError } =
+  const { setOpen, coverPreview, removeCover, coverError, open } =
     useSelectCoverImageStore();
 
   const handleRemove = (e: React.MouseEvent) => {
     e.stopPropagation();
     removeCover();
   };
+
+  useEffect(() => {
+    document.body.style.overflowY = "auto";
+  }, [open]);
 
   return (
     <div className="flex flex-col gap-2">

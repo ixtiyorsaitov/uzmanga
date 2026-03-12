@@ -2,16 +2,16 @@ import { AuthProvider } from "@/components/contexts/auth.context";
 import { Toaster } from "../ui/sonner";
 import QueryProvider from "./query-provider";
 import { ThemeProvider } from "./theme.provider";
-import api from "@/lib/axios";
 import NextTopLoader from "nextjs-toploader";
+import userService from "@/services/user.service";
 
 const Providers = async ({ children }: { children: React.ReactNode }) => {
   let user = null;
 
   try {
-    const { data: res } = await api.get("/auth/me");
+    const { data: res } = await userService.getMe();
 
-    user = res.data.user;
+    user = res ?? null;
   } catch (err) {
     user = null;
   }

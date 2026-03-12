@@ -96,10 +96,10 @@ export default function ImageCropper({
       </div>
 
       <div className="flex justify-end gap-3 w-full pt-2">
-        <Button variant="outline" size="sm" onClick={onCancel}>
+        <Button type="button" variant="outline" size="sm" onClick={onCancel}>
           Bekor qilish
         </Button>
-        <Button size="sm" onClick={handleConfirmClick}>
+        <Button type="button" size="sm" onClick={handleConfirmClick}>
           Tasdiqlash
         </Button>
       </div>

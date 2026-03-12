@@ -13,3 +13,9 @@ export const useCreateManga = () => {
     mutationFn: (formData: FormData) => MangaService.createManga(formData),
   });
 };
+
+export const useUpdateManga = () => {
+  return useMutation({
+    mutationFn: MangaService.updateManga
+  })
+}

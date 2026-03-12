@@ -32,4 +32,15 @@ export interface IManga {
     likes: number;
     dislikes: number;
   };
+  alternativeTitles: {
+    en: string;
+    ru: string;
+    romaji: string;
+    native: string;
+  };
+  seo: {
+    metaTitle: string;
+    metaDescription: string;
+    focusKeywords: string[];
+  };
 }

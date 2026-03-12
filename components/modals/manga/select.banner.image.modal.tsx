@@ -18,6 +18,8 @@ const SelectBannerImageModal = () => {
     }
   }, [open]);
 
+
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent className="max-w-[500px]">

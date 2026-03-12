@@ -7,6 +7,7 @@ interface CoverImageState {
   coverError: boolean;
   setOpen: (open: boolean) => void;
   setCover: (file: File) => void;
+  setCoverPreview: (url: string) => void;
   setCoverError: (error: boolean) => void;
   removeCover: () => void;
 }
@@ -18,6 +19,13 @@ const useSelectCoverImageStore = create<CoverImageState>((set) => ({
   coverError: false,
 
   setOpen: (open) => set({ open }),
+
+  setCoverPreview: (url: string) =>
+    set({
+      coverPreview: url,
+      coverFile: null,
+      coverError: false,
+    }),
 
   setCover: (file: File) =>
     set({

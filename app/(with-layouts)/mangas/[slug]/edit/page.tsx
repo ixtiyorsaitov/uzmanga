@@ -8,7 +8,6 @@ export default async function EditMangaPage({
 }) {
   const { slug } = await params;
   const manga = await mangaService.getManga(slug);
-  console.log(manga);
 
-  return <EditMangaClient manga={manga} />;
+  return <EditMangaClient manga={manga.data!} />;
 }

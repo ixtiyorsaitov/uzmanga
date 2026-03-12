@@ -9,6 +9,7 @@ interface BannerImageState {
   setBanner: (file: File) => void;
   setBannerError: (error: boolean) => void;
   removeBanner: () => void;
+  setBannerPreview: (url: string) => void;
 }
 
 const useSelectBannerImageStore = create<BannerImageState>((set) => ({
@@ -23,6 +24,12 @@ const useSelectBannerImageStore = create<BannerImageState>((set) => ({
     set({
       bannerFile: file,
       bannerPreview: URL.createObjectURL(file),
+      bannerError: false,
+    }),
+  setBannerPreview: (url: string) =>
+    set({
+      bannerPreview: url,
+      bannerFile: null,
       bannerError: false,
     }),
 

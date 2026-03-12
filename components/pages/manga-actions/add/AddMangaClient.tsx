@@ -11,11 +11,11 @@ import { Button } from "@/components/ui/button";
 import MessageToModerator from "../MessageToModerator";
 import useSelectBannerImageStore from "@/store/useSelectBannerImageStore";
 import useSelectCoverImageStore from "@/store/useSelectCoverImageStore";
-import AddMangaFields from "./AddMangaTitles";
 import { useCreateManga } from "@/components/hooks/api/useManga";
 import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import MangaFields from "../MangaFields";
 
 export default function AddMangaClient() {
   const router = useRouter();
@@ -104,7 +104,7 @@ export default function AddMangaClient() {
           className="flex flex-col gap-4"
         >
           <UploadBanner />
-          <AddMangaFields />
+          <MangaFields />
           <Description />
           <MangaTags />
           <MessageToModerator />

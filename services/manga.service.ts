@@ -67,6 +67,16 @@ class MangaService {
     const res = await api.post("/mangas", formData);
     return res.data;
   }
+  async updateManga({
+    mangaId,
+    formData,
+  }: {
+    formData: FormData;
+    mangaId: string;
+  }) {
+    const res = await api.put(`/mangas/${mangaId}`, formData);
+    return res.data;
+  }
 }
 
 export default new MangaService();

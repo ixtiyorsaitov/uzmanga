@@ -1,10 +1,22 @@
 import BookmarkButton from "@/components/features/bookmark/BookmarkButton";
 import { AlertIcon } from "@/components/icons";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 import { IManga } from "@/types/manga";
 import Image from "next/image";
+import Link from "next/link";
+import userService from "@/services/user.service";
 
-const AsideLayout = ({ manga }: { manga: IManga }) => {
+const AsideLayout = async ({ manga }: { manga: IManga }) => {
+  let user = null;
+  try {
+    const { data: res } = await userService.getMe();
+    user = res;
+  } catch (err) {
+    user = null;
+  }
+
+  const isPublisher = user && user._id === manga.createdBy?._id;
   return (
     <aside className="w-[320px] md:w-[241px] flex-none md:sticky top-24 z-10">
       <div className="flex flex-col gap-4">
@@ -24,6 +36,17 @@ const AsideLayout = ({ manga }: { manga: IManga }) => {
         <div className="flex flex-col gap-2">
           <Button className="h-12 text-md font-semibold">{"O'qish"}</Button>
           <BookmarkButton mangaId={manga._id} />
+          {isPublisher && (
+            <Link
+              className={cn(
+                buttonVariants({ variant: "ghost" }),
+                "hover:bg-accent",
+              )}
+              href={`/mangas/${manga.slug}/edit`}
+            >
+              Tahrirlash
+            </Link>
+          )}
           <Button variant={"outline"}>
             Shikoyat qilish
             <AlertIcon />

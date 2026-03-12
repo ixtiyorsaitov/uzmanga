@@ -21,7 +21,7 @@ export const useGetInfiniteComments = ({
     queryFn: async ({ pageParam = 1 }) => {
       const res = await commentService.getComments({
         targetId,
-        params: { ...params, page: pageParam, limit: 4 },
+        params: { ...params, page: pageParam, limit: 10 },
       });
       return res.data;
     },

@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import useSelectBannerImageStore from "@/store/useSelectBannerImageStore";
 import DefaultCard from "@/components/pages/manga-actions/DefaultCard";
 import Image from "next/image";
@@ -9,13 +9,17 @@ import ImageIcon from "@/components/icons/image.icon";
 import SelectBannerImageModal from "@/components/modals/manga/select.banner.image.modal";
 
 export default function UploadBanner() {
-  const { setOpen, bannerPreview, removeBanner, bannerError } =
+  const { setOpen, bannerPreview, removeBanner, bannerError, open } =
     useSelectBannerImageStore();
 
   const handleRemove = (e: React.MouseEvent) => {
     e.stopPropagation();
     removeBanner();
   };
+
+  useEffect(() => {
+    document.body.style.overflowY = "auto";
+  }, [open]);
 
   return (
     <div className="flex flex-col gap-2 w-full">
