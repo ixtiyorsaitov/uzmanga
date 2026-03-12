@@ -7,6 +7,7 @@ import { IChapter } from "@/types/chapter";
 import { formatDate } from "date-fns";
 import LockIcon from "@/components/icons/lock.icon";
 import ChapterService from "@/services/chapter.service";
+import userService from "@/services/user.service"; // <-- UserService qo'shildi
 
 const ChaptersPage = async ({
   params,
@@ -17,32 +18,51 @@ const ChaptersPage = async ({
 }) => {
   const { slug } = await params;
   const { search = "", ordering = "-index" } = await searchParams;
+
   const mangaResponse = await MangaService.getManga(slug);
   if (!mangaResponse.success || !mangaResponse.data) return;
   const manga = mangaResponse.data;
 
   const chaptersResponse = await ChapterService.getChaptersByMangaId(
     manga._id,
-    {
-      search,
-      ordering,
-    },
+    { search, ordering },
   );
-
   if (!chaptersResponse.success || !chaptersResponse.data) return;
-
   const chapters = chaptersResponse.data.chapters;
+
+  let user = null;
+  try {
+    const { data } = await userService.getMe();
+    user = data;
+  } catch (err) {
+    user = null;
+  }
+
+  const isPublisherOrTranslator = user && user._id === manga.createdBy?._id;
 
   return (
     <div className="w-full">
-      <FilterChapters ordering={ordering} search={search} />
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
+        <div className="flex-1">
+          <FilterChapters ordering={ordering} search={search} />
+        </div>
+
+        {isPublisherOrTranslator && (
+          <Link href={`/mangas/${slug}/add-chapter`}>
+            <Button className="w-full sm:w-auto font-semibold">
+              + Bob qo'shish
+            </Button>
+          </Link>
+        )}
+      </div>
+
       <div className="grid">
         {chapters.length > 0 ? (
           chapters.map((chapter: IChapter) => (
             <Link
               href={`/mangas/${slug}/${chapter._id}`}
               key={chapter._id}
-              className="p-4 blur-card mt-2 rounded-2xl border hover:border-primary flex items-center justify-between"
+              className="p-4 blur-card mt-2 rounded-2xl border hover:border-primary flex items-center justify-between transition-colors"
             >
               <div className="flex items-center justify-start gap-5">
                 <Button
@@ -77,14 +97,11 @@ const ChaptersPage = async ({
                     </Button>
                   )}
                   <div className="flex items-center gap-1">
-                    {" "}
-                    {/* Masofa uchun gap-1 */}
                     <Button
                       variant="ghost"
                       className="h-5! px-1! hover:bg-transparent"
                     >
                       <HeartIcon className="size-4 mr-1.5" />{" "}
-                      {/* Ikonka va matn orasida margin */}
                       <span className="text-xs font-medium">144</span>
                     </Button>
                   </div>

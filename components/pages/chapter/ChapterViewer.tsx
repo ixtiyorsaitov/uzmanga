@@ -6,9 +6,10 @@ import { IManga } from "@/types/manga";
 import ChapterImage from "./ChapterImage";
 import ChapterNavbar from "./ChapterNavbar";
 import SmartSidePanel from "./SmartSidePanel";
+import { IChapterPage } from "@/types/chapter";
 
 interface ChapterViewerProps {
-  images: IMedia[];
+  images: IChapterPage[];
   manga: IManga;
 }
 
@@ -44,7 +45,16 @@ export const ChapterViewer = ({ images, manga }: ChapterViewerProps) => {
 
       <main className="w-full max-w-[900px] mx-auto pt-4 flex flex-col items-center">
         {images.map((img, index) => (
-          <ChapterImage key={img._id || index} url={img.url} index={index} />
+          <>
+            <ChapterImage
+              key={img.media._id || index}
+              url={img.media.url}
+              index={index}
+            />
+            <div className="text-center text-muted-foreground text-sm">
+              {img.pageNumber} - sahifa
+            </div>
+          </>
         ))}
       </main>
 

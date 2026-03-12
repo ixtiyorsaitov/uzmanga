@@ -9,13 +9,18 @@ export interface IChapter {
   isLocked: boolean;
   price: number;
   volumeNumber: number;
-  pages: IMedia[];
+  pages: IChapterPage[];
   disableComments: boolean;
   chapterNumber: number;
   createdBy: IUser;
   publishedAt: Date;
   updatedAt: Date;
   createdAt: Date;
+}
+
+export interface IChapterPage {
+  pageNumber: number;
+  media: IMedia;
 }
 
 export interface ChapterQueryParams {
