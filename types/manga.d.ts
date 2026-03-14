@@ -1,6 +1,7 @@
 import { IMedia } from ".";
 import { IAgeRating } from "./age.rating";
 import { ICategory } from "./category";
+import { IChapter } from "./chapter";
 import { IGenre } from "./genre";
 import { IMangaStatus } from "./manga.status";
 import { IMangaType } from "./manga.type";
@@ -25,6 +26,7 @@ export interface IManga {
   genres: IGenre[];
   slug: string;
   createdBy: IUser;
+  userProgress: null | IChapter;
   stats: {
     comments: number;
     views: number;

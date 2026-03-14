@@ -8,6 +8,8 @@ import Link from "next/link";
 import userService from "@/services/user.service";
 
 const AsideLayout = async ({ manga }: { manga: IManga }) => {
+  console.log(manga);
+
   let user = null;
   try {
     const { data: res } = await userService.getMe();
@@ -34,7 +36,29 @@ const AsideLayout = async ({ manga }: { manga: IManga }) => {
 
         {/* Action Buttons */}
         <div className="flex flex-col gap-2">
-          <Button className="h-12 text-md font-semibold">{"O'qish"}</Button>
+          <Link
+            href={
+              manga.userProgress
+                ? `/mangas/${manga.slug}/${manga.userProgress._id}`
+                : `/mangas/${manga.slug}/chapters`
+            }
+            className={cn(
+              buttonVariants({ variant: "default" }),
+              "h-12 text-md font-semibold flex items-center justify-center flex-col gap-0",
+            )}
+          >
+            {manga.userProgress ? (
+              <>
+                <h1 className="inline-block text-md">Davom etish</h1>
+                <p className="text-xs font-light">
+                  Jild {manga.userProgress.volumeNumber}, Bob{" "}
+                  {manga.userProgress.chapterNumber}
+                </p>
+              </>
+            ) : (
+              "O'qish"
+            )}
+          </Link>
           <BookmarkButton mangaId={manga._id} />
           {isPublisher && (
             <Link

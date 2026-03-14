@@ -10,6 +10,8 @@ import { IChapter, IChapterPage } from "@/types/chapter";
 import CommentsSection from "@/components/features/comments";
 import { CommentTargetType } from "@/types/comment";
 import ChapterBottomButtons from "./ChapterBottomButtons";
+import { useMarkChapterAsRead } from "@/components/hooks/api/useChapters";
+import { appToast } from "@/lib/app-toast";
 
 interface ChapterViewerProps {
   chapter: IChapter;
@@ -18,10 +20,27 @@ interface ChapterViewerProps {
 
 export const ChapterViewer = ({ chapter, manga }: ChapterViewerProps) => {
   const images = chapter.pages;
+  const hasFetched = useRef(false);
 
   const [isVisible, setIsVisible] = useState(true);
 
   const lastScrollY = useRef(0);
+
+  const { mutate: markAsRead } = useMarkChapterAsRead();
+
+  useEffect(() => {
+    if (hasFetched.current) return;
+    markAsRead(chapter._id, {
+      onSuccess: (res) => {
+        console.log(res);
+      },
+      onError: (error: any) => {
+        const message = error.response?.data?.message || "Xatolik yuz berdi";
+        appToast.error(message);
+      },
+    });
+    hasFetched.current = true;
+  }, [chapter._id, markAsRead]);
 
   useEffect(() => {
     const handleScroll = () => {

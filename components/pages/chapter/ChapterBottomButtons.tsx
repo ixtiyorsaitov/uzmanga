@@ -31,8 +31,6 @@ const ChapterBottomButtons = ({
     if (isLiked) return;
     toggleReaction.mutate(chapterId, {
       onSuccess: (res) => {
-        console.log(res);
-
         setIsLiked(res.data!.isLiked);
         setLikesCount(res.data!.score);
       },

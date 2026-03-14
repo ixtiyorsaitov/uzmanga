@@ -18,6 +18,7 @@ import { bookmarkMenuItems } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 import { BOOKMARK_STATUS } from "@/types/bookmark";
 import { useAuth } from "@/components/contexts/auth.context";
+import useAuthModal from "@/components/hooks/modals/useAuthModal";
 
 export default function BookmarkButton({
   mangaId,
@@ -26,6 +27,7 @@ export default function BookmarkButton({
   mangaId: string;
   props?: React.ComponentProps<typeof Button>;
 }) {
+  const { setOpen: openAuthModal } = useAuthModal();
   const queryClient = useQueryClient();
 
   const { user } = useAuth();
@@ -74,7 +76,7 @@ export default function BookmarkButton({
   };
 
   const loading = isLoading || isPending || deleteMutation.isPending;
-  return (
+  return user ? (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button {...props} disabled={loading}>
@@ -101,5 +103,9 @@ export default function BookmarkButton({
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
+  ) : (
+    <Button onClick={() => openAuthModal(true)} {...props} disabled={loading}>
+      Xatcho'pga qo'shish
+    </Button>
   );
 }

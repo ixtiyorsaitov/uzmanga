@@ -20,6 +20,7 @@ export interface IChapter {
   createdBy: IUser;
   publishedAt: Date;
   isLiked: boolean;
+  isRead: boolean;
   updatedAt: Date;
   createdAt: Date;
 }

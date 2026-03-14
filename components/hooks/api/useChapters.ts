@@ -22,3 +22,17 @@ export const useCheckReaction = (chapterId: string) => {
     staleTime: cacheStaleTimesInMilliseconds.minute * 5,
   });
 };
+
+export const useMarkChapterAsRead = () => {
+  return useMutation({
+    mutationFn: (chapterId: string) =>
+      chapterService.markChapterAsRead(chapterId),
+  });
+};
+
+export const useToggleReadStatus = () => {
+  return useMutation({
+    mutationFn: (chapterId: string) =>
+      chapterService.toggleReadStatus(chapterId),
+  });
+};

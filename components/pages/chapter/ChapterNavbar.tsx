@@ -1,6 +1,9 @@
+import { useAuth } from "@/components/contexts/auth.context";
 import BookmarkButton from "@/components/features/bookmark/BookmarkButton";
+import useAuthModal from "@/components/hooks/modals/useAuthModal";
 import { BellIcon, BookmarkIcon } from "@/components/icons";
 import Wrapper from "@/components/layout/wrapper";
+import AuthModal from "@/components/modals/auth";
 import Logo from "@/components/shared/logo";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button, buttonVariants } from "@/components/ui/button";
@@ -32,6 +35,8 @@ export default function ChapterNavbar({
   isVisible,
   manga,
 }: ChapterNavbarProps) {
+  const { user } = useAuth();
+  const { open: authOpen, setOpen: setAuthOpen } = useAuthModal();
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   return (
@@ -57,22 +62,39 @@ export default function ChapterNavbar({
             </Link>
           </div>
           <div className="flex items-center gap-2">
-            <BookmarkButton mangaId={manga._id} />
-            <Button size={"icon"} variant={"secondary"}>
-              <BookmarkIcon className="size-5" />
-            </Button>
-            <Button variant={"secondary"} size={"icon"}>
-              <BellIcon className="size-5" />
-            </Button>
-            <DropdownMenu open={dropdownOpen} onOpenChange={setDropdownOpen}>
-              <DropdownMenuTrigger asChild>
-                <Avatar className="size-9">
-                  <AvatarImage />
-                  <AvatarFallback>I</AvatarFallback>
-                </Avatar>
-              </DropdownMenuTrigger>
-              {dropdownOpen && <UserDropdown />}
-            </DropdownMenu>
+            {user ? (
+              <>
+                <BookmarkButton mangaId={manga._id} />
+                <Button size={"icon"} variant={"secondary"}>
+                  <BookmarkIcon className="size-5" />
+                </Button>
+                <Button variant={"secondary"} size={"icon"}>
+                  <BellIcon className="size-5" />
+                </Button>
+                <DropdownMenu
+                  open={dropdownOpen}
+                  onOpenChange={setDropdownOpen}
+                >
+                  <DropdownMenuTrigger asChild>
+                    <Avatar className="size-9">
+                      <AvatarImage />
+                      <AvatarFallback>I</AvatarFallback>
+                    </Avatar>
+                  </DropdownMenuTrigger>
+                  {dropdownOpen && <UserDropdown />}
+                </DropdownMenu>
+              </>
+            ) : (
+              <>
+                <Button size={"icon"} variant={"secondary"}>
+                  <BookmarkIcon className="size-5" />
+                </Button>
+                <Button onClick={() => setAuthOpen(true)}>
+                  {"Kirish/Ro'yxatdan o'tish"}
+                </Button>
+                <AuthModal />
+              </>
+            )}
           </div>
         </div>
       </Wrapper>

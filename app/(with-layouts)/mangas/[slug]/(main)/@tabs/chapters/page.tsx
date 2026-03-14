@@ -2,12 +2,10 @@ import MangaService from "@/services/manga.service";
 import FilterChapters from "./filter-chapters";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { EyeIcon, HeartIcon } from "@/components/icons";
 import { IChapter } from "@/types/chapter";
-import { formatDate } from "date-fns";
-import LockIcon from "@/components/icons/lock.icon";
 import ChapterService from "@/services/chapter.service";
-import userService from "@/services/user.service"; // <-- UserService qo'shildi
+import userService from "@/services/user.service";
+import ChapterCard from "./ChapterCard";
 
 const ChaptersPage = async ({
   params,
@@ -59,57 +57,7 @@ const ChaptersPage = async ({
       <div className="grid">
         {chapters.length > 0 ? (
           chapters.map((chapter: IChapter) => (
-            <Link
-              href={`/mangas/${slug}/${chapter._id}`}
-              key={chapter._id}
-              className="p-4 blur-card mt-2 rounded-2xl border hover:border-primary flex items-center justify-between transition-colors"
-            >
-              <div className="flex items-center justify-start gap-5">
-                <Button
-                  className="size-5! hover:bg-secondary!"
-                  size={"icon"}
-                  variant={"ghost"}
-                >
-                  <EyeIcon />
-                </Button>
-                <div className="flex items-center justify-start gap-4">
-                  <p className="text-xl font-bold text-muted-foreground">
-                    {chapter.volumeNumber}
-                  </p>
-                  <div>
-                    <h2 className="text-sm">
-                      {chapter.title?.trim() !== ""
-                        ? chapter.title
-                        : `Bob ${chapter.chapterNumber}`}
-                    </h2>
-                    <p className="text-xs text-muted-foreground">
-                      {chapter.createdBy.name}
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <div className="flex items-center gap-3">
-                <p className="text-xs text-muted-foreground">
-                  {formatDate(chapter.publishedAt, "dd.MM.yyyy")}
-                </p>
-                <div className="flex items-center justify-center gap-5">
-                  {chapter.isLocked && (
-                    <Button variant={"ghost"} size={"icon"} className="size-5!">
-                      <LockIcon />
-                    </Button>
-                  )}
-                  <div className="flex items-center gap-1">
-                    <Button
-                      variant="ghost"
-                      className="h-5! px-1! hover:bg-transparent"
-                    >
-                      <HeartIcon className="size-4 mr-1.5" />{" "}
-                      <span className="text-xs font-medium">144</span>
-                    </Button>
-                  </div>
-                </div>
-              </div>
-            </Link>
+            <ChapterCard key={chapter._id} chapter={chapter} slug={slug} />
           ))
         ) : (
           <div className="flex flex-col items-center justify-center py-30 space-y-2">
