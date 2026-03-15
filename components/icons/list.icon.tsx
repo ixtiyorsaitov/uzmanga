@@ -1,0 +1,21 @@
+import React from "react";
+
+export default function ListIcon(props: React.SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="20"
+      height="20"
+      display="inline-block"
+      viewBox="0 0 20 20"
+      strokeWidth="1.5"
+      fill="none"
+      stroke="currentColor"
+      data-sentry-element="List"
+      data-sentry-source-file="reader-aside.tsx"
+      {...props}
+    >
+      <path d="M8.33268 5H13.3327M8.33268 11.6667H13.3327M8.33268 8.33333H18.3327M8.33268 15H18.3327M3.33268 8.33333C2.41221 8.33333 1.66602 7.58714 1.66602 6.66667C1.66602 5.74619 2.41221 5 3.33268 5C4.25316 5 4.99935 5.74619 4.99935 6.66667C4.99935 7.58714 4.25316 8.33333 3.33268 8.33333ZM3.33268 15C2.41221 15 1.66602 14.2538 1.66602 13.3333C1.66602 12.4129 2.41221 11.6667 3.33268 11.6667C4.25316 11.6667 4.99935 12.4129 4.99935 13.3333C4.99935 14.2538 4.25316 15 3.33268 15Z"></path>
+    </svg>
+  );
+}

@@ -19,13 +19,20 @@ import { cn } from "@/lib/utils";
 import { BOOKMARK_STATUS } from "@/types/bookmark";
 import { useAuth } from "@/components/contexts/auth.context";
 import useAuthModal from "@/components/hooks/modals/useAuthModal";
+import { BookmarkIcon } from "@/components/icons";
 
 export default function BookmarkButton({
   mangaId,
+  variant = "default",
+  className,
+  iconClassName,
   ...props
 }: {
   mangaId: string;
   props?: React.ComponentProps<typeof Button>;
+  variant?: "default" | "icon";
+  className?: string;
+  iconClassName?: string;
 }) {
   const { setOpen: openAuthModal } = useAuthModal();
   const queryClient = useQueryClient();
@@ -79,9 +86,24 @@ export default function BookmarkButton({
   return user ? (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button {...props} disabled={loading}>
-          {isBookmarked ? currentLabel : "Xatcho'pga qo'shish"}
-        </Button>
+        {variant === "default" ? (
+          <Button {...props} disabled={loading} className={className}>
+            {isBookmarked ? currentLabel : "Xatcho'pga qo'shish"}
+          </Button>
+        ) : (
+          <Button
+            {...props}
+            disabled={loading}
+            size={"icon"}
+            variant={"secondary"}
+            className={cn("relative", className)}
+          >
+            {isBookmarked && (
+              <div className="w-2 h-2 rounded-full bg-primary absolute top-[3px] right-[3px]"></div>
+            )}
+            <BookmarkIcon className={iconClassName} />
+          </Button>
+        )}
       </DropdownMenuTrigger>
 
       <DropdownMenuContent className="w-(--radix-dropdown-menu-trigger-width) mt-px">

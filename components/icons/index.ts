@@ -26,3 +26,7 @@ export { default as EyeIcon } from "./eye.icon";
 export { default as ArrowDownUpIcon } from "./arrowdownup.icon";
 export { default as SendIcon } from "./send.icon";
 export { default as PinIcon } from "./pin.icon";
+export { default as ListIcon } from "./list.icon";
+export { default as CommentsIcon } from "./comments.icon";
+export { default as AddPictureIcon } from "./AddPictureIcon";
+export { default as PlayIcon } from "./play.icon";

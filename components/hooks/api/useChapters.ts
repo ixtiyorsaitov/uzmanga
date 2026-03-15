@@ -1,6 +1,25 @@
 import { cacheStaleTimesInMilliseconds } from "@/lib/constants";
 import chapterService from "@/services/chapter.service";
+import { ChapterQueryParams } from "@/types/chapter";
 import { useMutation, useQuery } from "@tanstack/react-query";
+
+export const useGetChaptersByMangaId = (
+  mangaId: string,
+  params: ChapterQueryParams,
+) => {
+  return useQuery({
+    queryKey: [
+      "chapters",
+      mangaId,
+      params.search,
+      params.ordering,
+      params.page,
+      params.limit,
+    ],
+    queryFn: () => chapterService.getChaptersByMangaId(mangaId, params),
+    staleTime: cacheStaleTimesInMilliseconds.minute * 10,
+  });
+};
 
 export const useCreateChapter = () => {
   return useMutation({
@@ -9,7 +28,7 @@ export const useCreateChapter = () => {
   });
 };
 
-export const useToggleReaction = () => {
+export const useToggleReactionChapter = () => {
   return useMutation({
     mutationFn: (chapterId: string) => chapterService.toggleReaction(chapterId),
   });

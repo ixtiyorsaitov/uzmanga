@@ -8,8 +8,6 @@ import Link from "next/link";
 import userService from "@/services/user.service";
 
 const AsideLayout = async ({ manga }: { manga: IManga }) => {
-  console.log(manga);
-
   let user = null;
   try {
     const { data: res } = await userService.getMe();

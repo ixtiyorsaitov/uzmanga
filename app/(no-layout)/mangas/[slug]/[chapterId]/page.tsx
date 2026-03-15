@@ -5,10 +5,13 @@ import { redirect } from "next/navigation";
 
 const ChapterPage = async ({
   params,
+  searchParams,
 }: {
-  params: Promise<{ chapterId: string }>;
+  params: Promise<{ chapterId: string; slug: string }>;
+  searchParams: Promise<{ search?: string; ordering?: "index" | "-index" }>;
 }) => {
-  const { chapterId } = await params;
+  const { chapterId, slug } = await params;
+  const { search = "", ordering = "-index" } = await searchParams;
   const chapterResponse = await ChapterService.getChapter(chapterId);
 
   if (!chapterResponse.success || !chapterResponse.data) {
@@ -27,8 +30,10 @@ const ChapterPage = async ({
 
   return (
     <ChapterViewer
+      params={{ slug, search, ordering }}
       chapter={chapter}
       manga={chapter.manga}
+      chapterId={chapterId}
     />
   );
 };

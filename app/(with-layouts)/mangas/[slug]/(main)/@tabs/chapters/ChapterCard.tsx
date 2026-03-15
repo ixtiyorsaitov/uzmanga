@@ -9,8 +9,7 @@ import { cn } from "@/lib/utils";
 import { useState } from "react";
 import LockIcon from "@/components/icons/lock.icon";
 import {
-  useMarkChapterAsRead,
-  useToggleReaction,
+  useToggleReactionChapter,
   useToggleReadStatus,
 } from "@/components/hooks/api/useChapters";
 import { appToast } from "@/lib/app-toast";
@@ -30,7 +29,7 @@ export default function ChapterCard({
   const [isLiked, setIsLiked] = useState(chapter.isLiked);
   const [isRead, setIsRead] = useState(chapter.isRead);
   const [likesCount, setLikesCount] = useState(chapter.stats.score);
-  const toggleReaction = useToggleReaction();
+  const toggleReaction = useToggleReactionChapter();
   const { mutate: toggleReadStatus, isPending: toggleReadStatusPending } =
     useToggleReadStatus();
 
@@ -88,15 +87,17 @@ export default function ChapterCard({
         <div className="w-full h-full bg-background/50 absolute top-0 left-0 z-10 pointer-events-none"></div>
       )}
       <div className="flex items-center justify-start gap-5">
-        <Button
-          className="size-5! hover:bg-secondary!"
-          size={"icon"}
-          variant={"ghost"}
-          onClick={handleToggleReadStatus}
-          disabled={toggleReadStatusPending}
-        >
-          <EyeIcon disable={isRead} />
-        </Button>
+        {user && (
+          <Button
+            className="size-5! hover:bg-secondary!"
+            size={"icon"}
+            variant={"ghost"}
+            onClick={handleToggleReadStatus}
+            disabled={toggleReadStatusPending}
+          >
+            <EyeIcon disable={isRead} />
+          </Button>
+        )}
         <div className="flex items-center justify-start gap-4">
           <p className="text-xl font-bold text-muted-foreground">
             {chapter.volumeNumber}

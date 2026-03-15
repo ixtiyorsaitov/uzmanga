@@ -2,7 +2,7 @@
 
 import {
   useCheckReaction,
-  useToggleReaction,
+  useToggleReactionChapter,
 } from "@/components/hooks/api/useChapters";
 import { HeartIcon } from "@/components/icons";
 import CoinIcon from "@/components/icons/coin.icon";
@@ -25,7 +25,7 @@ const ChapterBottomButtons = ({
   const [isLiked, setIsLiked] = useState(defaultIsLiked);
   const [likesCount, setLikesCount] = useState(defaultLikesCount);
 
-  const toggleReaction = useToggleReaction();
+  const toggleReaction = useToggleReactionChapter();
 
   const handleReact = () => {
     if (isLiked) return;
@@ -43,7 +43,14 @@ const ChapterBottomButtons = ({
   };
   return (
     <div className="w-full flex items-center justify-center gap-5">
-      <Button variant={"secondary"} size={"lg"} className="text-md">
+      <Button variant={"secondary"} size={"icon"} className="text-md sm:hidden">
+        <StarIcon className="size-6! text-yellow-500" />
+      </Button>
+      <Button
+        variant={"secondary"}
+        size={"lg"}
+        className="text-md sm:flex hidden"
+      >
         <StarIcon className="size-6! text-yellow-500" />
         Baho berish
       </Button>
@@ -58,7 +65,14 @@ const ChapterBottomButtons = ({
         />
         Raxmat ({likesCount})
       </Button>
-      <Button variant={"secondary"} size={"lg"} className="text-md">
+      <Button variant={"secondary"} size={"icon"} className="sm:hidden">
+        <CoinIcon className="size-6!" />
+      </Button>
+      <Button
+        variant={"secondary"}
+        size={"lg"}
+        className="text-md sm:flex hidden"
+      >
         <CoinIcon className="size-6!" />
         Qo'llab-quvvatlash
       </Button>
